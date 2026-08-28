@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Catalogue · BleepStash{% endblock %}
+{% block content %}
+<section class="catalogue">
+    <h1>Catalogue</h1>
+    <p class="hint">{{ products | length }} products known. Click a row to edit or refresh from Open Food Facts.</p>
+
+    {% if products %}
+    <table class="grid">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Manufacturer</th>
+                <th>EAN</th>
+                <th>Weight</th>
+                <th>Category</th>
+                <th>In stock</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for p in products %}
+            <tr class="{% if p.is_placeholder %}row-warn{% endif %}">
+                <td><a href="/catalogue/{{ p.ean }}">{{ p.name }}</a></td>
+                <td>{{ p.manufacturer or "—" }}</td>
+                <td class="mono">{{ p.ean }}</td>
+                <td>{% if p.weight_g %}{{ "%.0f"|format(p.weight_g) }} g{% else %}—{% endif %}</td>
+                <td>{{ p.category or "—" }}</td>
+                <td>{{ p.in_stock }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="hint">No products yet. Scan a product in ADD mode to seed the catalogue.</p>
+    {% endif %}
+</section>
+{% endblock %}

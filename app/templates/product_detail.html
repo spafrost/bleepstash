@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}{{ product.name }} · BleepStash{% endblock %}
+{% block content %}
+<section class="product-detail">
+    <p><a href="/catalogue">← Catalogue</a></p>
+    <h1>{{ product.name }}</h1>
+    <p class="hint mono">EAN {{ product.ean }}</p>
+
+    <div class="panel">
+        <h2>Metadata</h2>
+        <form method="post" action="/catalogue/{{ product.ean }}" class="metadata-form">
+            <label>
+                Name
+                <input type="text" name="name" value="{{ product.name }}" required>
+            </label>
+            <label>
+                Manufacturer
+                <input type="text" name="manufacturer" value="{{ product.manufacturer or '' }}">
+            </label>
+            <label>
+                Weight (grams)
+                <input type="number" step="0.1" name="weight_g" value="{{ product.weight_g or '' }}">
+            </label>
+            <label>
+                Category
+                <input type="text" name="category" value="{{ product.category or '' }}">
+            </label>
+            <label>
+                Default shelf life (months)
+                <input type="number" step="1" name="default_shelf_life_months" value="{{ product.default_shelf_life_months or '' }}">
+            </label>
+            <div class="form-actions">
+                <button type="submit">Save</button>
+            </div>
+        </form>
+        <form method="post" action="/catalogue/{{ product.ean }}/refresh" class="inline-form refresh-form">
+            <button type="submit" class="secondary">Refresh from Open Food Facts</button>
+        </form>
+    </div>
+
+    <div class="tiles">
+        <div class="tile"><div class="tile-label">In stock</div><div class="tile-value">{{ counts.in_stock }}</div></div>
+        <div class="tile"><div class="tile-label">Consumed</div><div class="tile-value">{{ counts.consumed }}</div></div>
+        <div class="tile tile--warn"><div class="tile-label">Discarded</div><div class="tile-value">{{ counts.discarded }}</div></div>
+    </div>
+
+    <div class="panel">
+        <h2>Stock history</h2>
+        {% if stock_items %}
+        <table class="grid">
+            <thead>
+                <tr><th>Best before</th><th>Status</th><th>Location</th><th>Added</th><th>Consumed/Discarded</th><th>Stock ID</th><th></th></tr>
+            </thead>
+            <tbody>
+            {% for item in stock_items %}
+                <tr class="{% if item.status.value == 'discarded' %}row-err{% elif item.status.value == 'in_stock' %}{% else %}row-warn{% endif %}">
+                    <td>{{ item.best_before }}</td>
+                    <td>{{ item.status.value }}</td>
+                    <td>{{ item.location or "—" }}</td>
+                    <td>{{ item.added_at.strftime("%Y-%m-%d") }}</td>
+                    <td>{% if item.consumed_at %}{{ item.consumed_at.strftime("%Y-%m-%d") }}{% else %}—{% endif %}</td>
+                    <td class="mono small">{{ item.id }}</td>
+                    <td>
+                        <form method="post" action="/catalogue/{{ product.ean }}/stock/{{ item.id }}/delete"
+                              class="inline-form"
+                              onsubmit="return confirm('Permanently delete stock item {{ item.id }}? This is not an UNDO — it will not be recoverable.');">
+                            <button type="submit" class="delete-btn" title="Permanently delete this stock item">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="hint">No stock items recorded for this EAN yet.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

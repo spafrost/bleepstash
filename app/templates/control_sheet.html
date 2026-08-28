@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Control Sheet · BleepStash</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/control_sheet.css">
+</head>
+<body class="control-sheet">
+    <header class="topbar screen-only">
+        <div class="brand"><a href="/">BleepStash</a></div>
+        <nav class="nav">
+            <a href="/">Scanner</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/control-sheet">Control Sheet</a>
+        </nav>
+        <div class="print-actions">
+            <a class="symbology-toggle" href="?symbology={% if symbology == 'qr' %}code128{% else %}qr{% endif %}">
+                Switch to {% if symbology == 'qr' %}Code128{% else %}QR{% endif %}
+            </a>
+            <button type="button" onclick="window.print()">Print / Save as PDF</button>
+        </div>
+    </header>
+
+    <main class="sheet sheet--{{ symbology }}">
+        {% for section in sections %}
+        <section class="cs-section">
+            <h2 class="cs-section-head">{{ section.name }}</h2>
+            <div class="cs-grid">
+                {% for item in section.entries %}
+                <figure class="cs-card">
+                    <div class="cs-barcode cs-barcode--{{ symbology }}">{{ item.svg | safe }}</div>
+                    <figcaption>
+                        <div class="cs-label">{{ item.label }}</div>
+                        <div class="cs-human">{{ item.human }}</div>
+                    </figcaption>
+                </figure>
+                {% endfor %}
+            </div>
+        </section>
+        {% endfor %}
+
+        <footer class="sheet-footer screen-only">
+            <small>BleepStash v{{ version }} · {{ symbology | upper }} · print at 100% scale.</small>
+        </footer>
+    </main>
+</body>
+</html>

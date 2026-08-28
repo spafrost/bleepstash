@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="scanner">
+    <h1>Scanner ready</h1>
+    <p class="hint">
+        Scan a control barcode to change mode, or a product barcode to log an item.
+        The input below stays focused for hardware scanners; you can also type a
+        code and press Enter to simulate a scan.
+    </p>
+    <form id="scan-form" autocomplete="off">
+        <input id="scan-input" name="code" autofocus placeholder="^CTRL^MODE:ADD or EAN…" />
+    </form>
+    <div id="scan-status" class="status" aria-live="polite"></div>
+    <details>
+        <summary>Pending state</summary>
+        <pre id="state-dump">{{ state.model_dump_json(indent=2) }}</pre>
+    </details>
+</section>
+{% endblock %}

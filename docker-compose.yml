@@ -1,0 +1,16 @@
+services:
+  bleepstash:
+    build: .
+    image: bleepstash:dev
+    container_name: bleepstash
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/data
+    environment:
+      - BS_TZ=Europe/London
+      - BS_AUTH_TOKEN=
+      - BS_EXTERNAL_LOOKUP=off
+      - BS_WARN_DAYS=30,90
+      - BS_DEFAULT_LOCATION=pantry

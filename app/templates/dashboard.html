@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · BleepStash{% endblock %}
+{% block content %}
+<section class="dashboard">
+    <h1>Dashboard</h1>
+
+    <div class="tiles">
+        <div class="tile">
+            <div class="tile-label">In stock</div>
+            <div class="tile-value">{{ summary.totals.in_stock }}</div>
+        </div>
+        <div class="tile">
+            <div class="tile-label">Consumed</div>
+            <div class="tile-value">{{ summary.totals.consumed }}</div>
+        </div>
+        <div class="tile tile--warn">
+            <div class="tile-label">Discarded</div>
+            <div class="tile-value">{{ summary.totals.discarded }}</div>
+        </div>
+        <div class="tile tile--accent">
+            <div class="tile-label">Waste rate</div>
+            <div class="tile-value">{{ summary.waste_rate_pct }}%</div>
+        </div>
+        {% for days, count in summary.expiring_within.items() %}
+        <div class="tile">
+            <div class="tile-label">Expiring &le; {{ days }}d</div>
+            <div class="tile-value">{{ count }}</div>
+        </div>
+        {% endfor %}
+        <div class="tile tile--err">
+            <div class="tile-label">Expired-in-stash</div>
+            <div class="tile-value">{{ summary.expired_in_stash }}</div>
+        </div>
+    </div>
+
+    <section class="panel">
+        <h2>Next 10 expiring</h2>
+        {% if summary.next_expiring %}
+        <table class="grid">
+            <thead>
+                <tr><th>EAN</th><th>Name</th><th>Best before</th><th>Days left</th><th>Location</th></tr>
+            </thead>
+            <tbody>
+            {% for item in summary.next_expiring %}
+                <tr class="{% if item.days_left < 0 %}row-err{% elif item.days_left <= 30 %}row-warn{% endif %}">
+                    <td>{{ item.ean }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.best_before }}</td>
+                    <td>{{ item.days_left }}</td>
+                    <td>{{ item.location or "—" }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="hint">No stock items yet.</p>
+        {% endif %}
+    </section>
+
+    <section class="panel">
+        <h2>Categories</h2>
+        {% if summary.category_counts %}
+        <ul class="chip-list">
+            {% for cat, count in summary.category_counts.items() %}
+            <li class="chip">{{ cat }} — {{ count }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="hint">No categorised products.</p>
+        {% endif %}
+    </section>
+
+    <section class="panel">
+        <h2>Recent unread notifications ({{ summary.unread_notifications }})</h2>
+        {% if summary.recent_notifications %}
+        <ul class="notif-list">
+            {% for n in summary.recent_notifications %}
+            <li class="notif notif--{{ n.severity }}">
+                <div class="notif-title">{{ n.title }}</div>
+                <div class="notif-body">{{ n.body }}</div>
+                <button type="button" class="notif-dismiss" data-id="{{ n.id }}">Dismiss</button>
+            </li>
+            {% endfor %}
+        </ul>
+        <button type="button" id="dismiss-all">Dismiss all</button>
+        {% else %}
+        <p class="hint">Nothing to see here.</p>
+        {% endif %}
+    </section>
+</section>
+{% endblock %}

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}BleepStash{% endblock %}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body data-mode="{{ state.mode.value }}">
+    <header class="topbar">
+        <div class="brand"><a href="/">BleepStash</a></div>
+        <nav class="nav">
+            <a href="/">Scanner</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/catalogue">Catalogue</a>
+            <a href="/control-sheet">Control Sheet</a>
+        </nav>
+        <div class="mode-banner" id="mode-banner">Mode: <strong>{{ state.mode.value }}</strong></div>
+        <a href="/dashboard" class="bell" title="Notifications">🔔<span class="badge" id="notif-badge" hidden>0</span></a>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <small>v{{ version }} · <a href="/docs">API docs</a></small>
+    </footer>
+    <script src="/static/scanner.js"></script>
+    <script src="/static/dashboard.js"></script>
+</body>
+</html>
