@@ -44,20 +44,22 @@
         /* Dense grid — as many QRs per row as fit */
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(23mm, 1fr));
-            gap: 1.5mm;
+            grid-template-columns: repeat(auto-fill, minmax(28mm, 1fr));
+            gap: 3.5mm;
         }
         .cell {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 0.5mm;
+            padding: 1.5mm;
             page-break-inside: avoid;
             break-inside: avoid;
+            overflow: visible;
         }
         .cell .qr {
-            width: 22mm;
-            height: 22mm;
+            width: 24mm;
+            height: 24mm;
+            overflow: visible;
         }
         {% if symbology == 'code128' %}
         /* Code128 is much wider — fewer columns */
@@ -68,6 +70,7 @@
             display: block;
             width: 100%;
             height: 100%;
+            overflow: visible;
         }
         .cell .lbl {
             font-size: 6.5pt;

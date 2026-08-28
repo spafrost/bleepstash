@@ -71,7 +71,21 @@ def _make_qr_svg(code: str) -> str:
         svgns=False,
         omitsize=False,
     )
-    return buf.getvalue().decode("utf-8")
+    svg = buf.getvalue().decode("utf-8")
+    # Inject a viewBox so the SVG scales cleanly inside CSS-constrained
+    # containers (e.g. the dense print grid). Without it, browsers use the
+    # intrinsic pixel width/height and can clip when the container is smaller.
+    if "viewBox=" not in svg:
+        import re
+        m = re.search(r'<svg\b[^>]*\bwidth="([^"]+)"[^>]*\bheight="([^"]+)"', svg)
+        if m:
+            w, h = m.group(1), m.group(2)
+            svg = svg.replace(
+                "<svg",
+                f'<svg viewBox="0 0 {w} {h}" preserveAspectRatio="xMidYMid meet"',
+                1,
+            )
+    return svg
 
 
 def build_sections(symbology: str = DEFAULT_SYMBOLOGY) -> List[dict]:
