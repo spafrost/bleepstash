@@ -71,6 +71,7 @@ async def catalogue_detail(request: Request, ean: str) -> HTMLResponse:
         "consumed": sum(1 for i in matches if i.status == StockStatus.CONSUMED),
         "discarded": sum(1 for i in matches if i.status == StockStatus.DISCARDED),
     }
+    total_referencing = len(matches)  # any-status count; guards the delete button
 
     templates = _get_templates(request)
     return templates.TemplateResponse(
@@ -81,6 +82,7 @@ async def catalogue_detail(request: Request, ean: str) -> HTMLResponse:
             "product": product,
             "stock_items": matches,
             "counts": counts,
+            "total_referencing": total_referencing,
         },
     )
 
@@ -124,6 +126,34 @@ async def catalogue_refresh(request: Request, ean: str) -> HTMLResponse:
         raise HTTPException(status_code=404, detail=f"No catalogue entry for EAN {ean}")
     await products_mod.refresh_from_off(ean)
     return RedirectResponse(url=f"/catalogue/{ean}", status_code=303)
+
+
+@router.post("/catalogue/{ean}/delete", response_class=HTMLResponse)
+async def catalogue_delete(request: Request, ean: str) -> HTMLResponse:
+    """Delete a product from the catalogue, but only if no stock rows (of any
+    status, all-time) reference this EAN. This preserves audit-trail integrity
+    for historically consumed/discarded items."""
+    product = await products_mod.get_product(ean)
+    if product is None:
+        raise HTTPException(status_code=404, detail=f"No catalogue entry for EAN {ean}")
+
+    stock_items = await storage.load_stock()
+    referencing = [i for i in stock_items if i.ean == ean]
+    if referencing:
+        raise HTTPException(
+            status_code=409,
+            detail=(
+                f"Cannot delete: {len(referencing)} stock item(s) still reference "
+                f"EAN {ean} (any status counts, including consumed/discarded)."
+            ),
+        )
+
+    all_products = await storage.load_products()
+    if ean in all_products:
+        del all_products[ean]
+        await storage.save_products(all_products)
+    await audit.log("product_delete", ean=ean, name=product.name)
+    return RedirectResponse(url="/catalogue", status_code=303)
 
 
 @router.post("/catalogue/{ean}/stock/{stock_id}/delete", response_class=HTMLResponse)

@@ -36,6 +36,20 @@
         <form method="post" action="/catalogue/{{ product.ean }}/refresh" class="inline-form refresh-form">
             <button type="submit" class="secondary">Refresh from Open Food Facts</button>
         </form>
+        <form method="post" action="/catalogue/{{ product.ean }}/delete" class="inline-form refresh-form"
+              {% if total_referencing == 0 %}
+              onsubmit="return confirm('Delete {{ product.name }} ({{ product.ean }}) from the catalogue permanently?');"
+              {% endif %}>
+            <button type="submit" class="delete-btn"
+                    {% if total_referencing > 0 %}disabled
+                    title="Cannot delete: {{ total_referencing }} stock item(s) reference this EAN (any status)."
+                    {% else %}
+                    title="Permanently delete this product from the catalogue."
+                    {% endif %}>
+                Delete product
+                {% if total_referencing > 0 %}(blocked: {{ total_referencing }} stock refs){% endif %}
+            </button>
+        </form>
     </div>
 
     <div class="tiles">
