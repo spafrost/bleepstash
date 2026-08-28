@@ -13,6 +13,11 @@
             <a href="/">Scanner</a>
             <a href="/dashboard">Dashboard</a>
             <a href="/catalogue">Catalogue</a>
+            {% if state.active_inventory_id %}
+            <a href="/inventory" class="nav-active-inv">Inventory</a>
+            {% else %}
+            <a href="/inventory">Inventory</a>
+            {% endif %}
             <a href="/control-sheet">Control Sheet</a>
         </nav>
         <div class="mode-banner" id="mode-banner">Mode: <strong>{{ state.mode.value }}</strong></div>

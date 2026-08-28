@@ -68,7 +68,8 @@ async def ensure_product(ean: str) -> tuple[Product, bool]:
             })
 
     saved = await upsert_product(placeholder)
-    await _notify_unknown(ean, saved.name)
+    if saved.name == "Unknown":
+        await _notify_unknown(ean, saved.name)
     return saved, True
 
 

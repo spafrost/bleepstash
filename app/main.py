@@ -13,6 +13,7 @@ from . import __version__, audit, control_sheet, dashboard, state
 from .auth import BearerTokenMiddleware
 from .config import get_settings
 from .routers import backup, catalogue, ha, health, notifications, scan
+from .routers import inventory as inventory_router
 
 APP_DIR = Path(__file__).resolve().parent
 TEMPLATES_DIR = APP_DIR / "templates"
@@ -51,6 +52,7 @@ app.include_router(notifications.router)
 app.include_router(ha.router)
 app.include_router(backup.router)
 app.include_router(catalogue.router)
+app.include_router(inventory_router.router)
 
 
 @app.get("/", response_class=HTMLResponse)

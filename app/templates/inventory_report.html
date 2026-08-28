@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Inventory report · BleepStash{% endblock %}
+{% block content %}
+<section class="inventory report">
+    <p class="screen-only"><a href="/inventory">← Inventory</a></p>
+    <h1>Inventory report</h1>
+    <p class="hint">
+        Session <span class="mono">{{ snapshot.session.id }}</span>.
+        Started {{ snapshot.session.started_at[:19].replace('T', ' ') }}.
+        {% if snapshot.session.finished_at %}
+        Finished {{ snapshot.session.finished_at[:19].replace('T', ' ') }}.
+        {% else %}
+        <strong>Still active.</strong>
+        {% endif %}
+    </p>
+
+    <div class="print-actions screen-only">
+        <button type="button" onclick="window.print()">Print / Save as PDF</button>
+    </div>
+
+    <div class="inv-progress">
+        <div class="inv-progress-cell">
+            <div class="tile-label">Products done</div>
+            <div class="tile-value">{{ snapshot.progress.products_done }} / {{ snapshot.progress.products_total }}</div>
+        </div>
+        <div class="inv-progress-cell">
+            <div class="tile-label">Units counted</div>
+            <div class="tile-value">{{ snapshot.progress.units_counted }} / {{ snapshot.progress.units_expected }}</div>
+        </div>
+        <div class="inv-progress-cell">
+            <div class="tile-label">Unknown scans</div>
+            <div class="tile-value">{{ snapshot.unknown_scans | length }}</div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h2>Products</h2>
+        <table class="grid inv-table">
+            <thead>
+                <tr><th>Name</th><th>EAN</th><th>Expected</th><th>Counted</th><th>Δ</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+                {% for row in snapshot.rows %}
+                <tr class="inv-row inv-row--{{ row.status }}">
+                    <td>{{ row.name }}</td>
+                    <td class="mono">{{ row.ean }}</td>
+                    <td>{{ row.expected }}</td>
+                    <td>{{ row.counted }}</td>
+                    <td>{% if row.delta > 0 %}+{{ row.delta }}{% else %}{{ row.delta }}{% endif %}</td>
+                    <td>{{ row.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if snapshot.report and snapshot.report.expired_still_in_stash %}
+    <div class="panel">
+        <h2>Expired items still in stash ({{ snapshot.report.expired_still_in_stash | length }})</h2>
+        <table class="grid">
+            <thead><tr><th>EAN</th><th>Best before</th><th>Location</th><th>Stock ID</th></tr></thead>
+            <tbody>
+                {% for item in snapshot.report.expired_still_in_stash %}
+                <tr class="row-err">
+                    <td class="mono">{{ item.ean }}</td>
+                    <td>{{ item.best_before }}</td>
+                    <td>{{ item.location or "—" }}</td>
+                    <td class="mono small">{{ item.stock_id }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    {% if snapshot.unknown_scans %}
+    <div class="panel">
+        <h2>Unknown scans</h2>
+        <ul class="chip-list">
+            {% for ean in snapshot.unknown_scans %}
+            <li class="chip mono">{{ ean }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Inventory · BleepStash{% endblock %}
+{% block content %}
+<section class="inventory">
+    <h1>Inventory</h1>
+
+    {% if snapshot %}
+    <p class="hint">
+        Session <span class="mono">{{ snapshot.session.id }}</span> started
+        {{ snapshot.session.started_at[:19].replace('T', ' ') }}.
+        Scan a stash item to count it; scan <span class="mono">^CTRL^ACTION:FINISH</span> to close.
+    </p>
+
+    <div class="inv-progress">
+        <div class="inv-progress-cell">
+            <div class="tile-label">Products done</div>
+            <div class="tile-value">
+                <span data-progress-done>{{ snapshot.progress.products_done }}</span>
+                / <span data-progress-total>{{ snapshot.progress.products_total }}</span>
+            </div>
+        </div>
+        <div class="inv-progress-cell">
+            <div class="tile-label">Units counted</div>
+            <div class="tile-value">
+                <span data-units-counted>{{ snapshot.progress.units_counted }}</span>
+                / <span data-units-expected>{{ snapshot.progress.units_expected }}</span>
+            </div>
+        </div>
+        <div class="inv-progress-cell">
+            <div class="tile-label">Unknown scans</div>
+            <div class="tile-value" data-unknown-count>{{ snapshot.unknown_scans | length }}</div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h2>Products</h2>
+        <table class="grid inv-table">
+            <thead>
+                <tr><th>Name</th><th>EAN</th><th>Expected</th><th>Counted</th><th>Δ</th><th>Status</th></tr>
+            </thead>
+            <tbody id="inv-tbody">
+                {% for row in snapshot.rows %}
+                <tr class="inv-row inv-row--{{ row.status }}">
+                    <td>{{ row.name }}</td>
+                    <td class="mono">{{ row.ean }}</td>
+                    <td>{{ row.expected }}</td>
+                    <td>{{ row.counted }}</td>
+                    <td>{% if row.delta > 0 %}+{{ row.delta }}{% else %}{{ row.delta }}{% endif %}</td>
+                    <td>{{ row.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="panel">
+        <h2>Unknown scans</h2>
+        <ul id="inv-unknown" class="chip-list">
+            {% for ean in snapshot.unknown_scans %}
+            <li class="chip mono">{{ ean }}</li>
+            {% endfor %}
+        </ul>
+        {% if not snapshot.unknown_scans %}
+        <p class="hint">None yet.</p>
+        {% endif %}
+    </div>
+
+    {% else %}
+    <p class="hint">
+        No active inventory session. Scan <span class="mono">^CTRL^MODE:INVENTORY</span> from the
+        control sheet to open one.
+    </p>
+
+    {% if past_sessions %}
+    <div class="panel">
+        <h2>Recent sessions</h2>
+        <ul class="past-sessions">
+            {% for s in past_sessions %}
+            <li>
+                <a href="/inventory/{{ s.id }}">
+                    <span class="mono">{{ s.id }}</span>
+                    <span class="hint">
+                        · finished {{ (s.finished_at or '')[:19].replace('T', ' ') }}
+                    </span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    {% endif %}
+</section>
+<script src="/static/inventory.js"></script>
+{% endblock %}

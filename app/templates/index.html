@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 <section class="scanner">
+    {% if state.mode.value == 'INVENTORY' and state.active_inventory_id %}
+    <div class="inv-banner">
+        Inventory session active —
+        <a href="/inventory">open live view</a>
+        (session <span class="mono">{{ state.active_inventory_id }}</span>).
+    </div>
+    {% endif %}
     <h1>Scanner ready</h1>
     <p class="hint">
         Scan a control barcode to change mode, or a product barcode to log an item.

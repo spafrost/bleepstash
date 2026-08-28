@@ -140,9 +140,11 @@ async def undo_last() -> Optional[Dict[str, Any]]:
         reverted=reverted_event,
         stock_id=stock_id,
         ean=record.get("ean"),
+        bbe=record.get("bbe"),
     )
     return {
         "reverted_event": reverted_event,
         "stock_id": stock_id,
         "ean": record.get("ean"),
+        "bbe": record.get("bbe"),
     }

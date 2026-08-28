@@ -68,8 +68,9 @@ async def _handle_mode_change(new_mode: Mode) -> ScanResult:
         session = await inventory.open_session(previous_mode)
         st = await state.set_active_inventory(session.id)
         message = (
-            f"Mode set to INVENTORY. Session {session.id} open — "
-            "scan stash items one by one; scan CTRL^ACTION:FINISH to close."
+            f"Mode set to INVENTORY. Session open — "
+            "scan stash items one by one; scan CTRL^ACTION:FINISH to close. "
+            "Live view: /inventory."
         )
     else:
         message = f"Mode set to {new_mode.value}."
@@ -114,7 +115,7 @@ async def _handle_add_control(intent: barcodes.BarcodeIntent) -> ScanResult:
             status=ScanResultStatus.WAITING,
             kind=ScanKind.CONTROL,
             current_state=st,
-            message=f"Next entry will be recorded {intent.value}×.",
+            message=f"Quantity × {intent.value} noted.",
         )
 
     return _result(
@@ -164,17 +165,23 @@ async def _handle_action(intent: barcodes.BarcodeIntent) -> ScanResult:
                 tone="attention",
             )
         reverted = result["reverted_event"]
-        stock_id = result["stock_id"]
-        human = {
-            "stock_add": "Reverted last ADD",
-            "stock_consume": "Reverted last CONSUME",
-            "stock_discard": "Reverted last DISCARD",
-        }[reverted]
+        ean = result.get("ean")
+        bbe = result.get("bbe")
+        label = await _label_for(ean) if ean else "(unknown)"
+        bbe_str = f", BBE {bbe}" if bbe else ""
+        if reverted == "stock_add":
+            message = f"Undid the addition of {label}{bbe_str}. Removed from stock."
+        elif reverted == "stock_consume":
+            message = f"Restored {label}{bbe_str} to stock (was consumed)."
+        elif reverted == "stock_discard":
+            message = f"Restored {label}{bbe_str} to stock (was discarded)."
+        else:
+            message = f"Reverted last {reverted}."
         return _result(
             status=ScanResultStatus.OK,
             kind=ScanKind.CONTROL,
             current_state=st,
-            message=f"{human} — stock item {stock_id}.",
+            message=message,
             detail=result,
         )
 
@@ -198,13 +205,13 @@ async def _handle_action(intent: barcodes.BarcodeIntent) -> ScanResult:
         st = await state.set_mode(restore)
         report = session.report or {}
         summary = (
-            f"Inventory session {session.id} closed. "
+            f"Inventory session closed. "
             f"{len(report.get('matches', []))} matches, "
             f"{len(report.get('shortfalls', []))} shortfalls, "
             f"{len(report.get('surpluses', []))} surpluses, "
             f"{len(report.get('expired_still_in_stash', []))} expired-in-stash, "
             f"{len(report.get('unknown_scans', []))} unknown scans. "
-            f"Mode restored to {restore.value}."
+            f"Mode restored to {restore.value}. Report at /inventory/{session.id}."
         )
         return _result(
             status=ScanResultStatus.OK,

@@ -213,3 +213,58 @@ footer a { color: var(--accent); }
     cursor: pointer;
 }
 .delete-btn:hover { background: var(--err); color: white; }
+
+/* Inventory */
+.nav-active-inv {
+    color: var(--warn) !important;
+    font-weight: 700;
+}
+.inv-banner {
+    background: rgba(250, 204, 21, 0.18);
+    color: var(--warn);
+    border-left: 4px solid var(--warn);
+    padding: 0.6rem 0.9rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+.inv-banner a { color: var(--warn); font-weight: 600; text-decoration: underline; }
+
+.inv-progress {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.75rem;
+    margin: 1rem 0 1.5rem;
+}
+.inv-progress-cell {
+    background: var(--panel);
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    border-left: 4px solid var(--accent);
+}
+
+.inv-table td { transition: background 0.15s ease; }
+.inv-row--pending td { color: var(--muted); }
+.inv-row--partial { background: rgba(250, 204, 21, 0.08); }
+.inv-row--partial td { color: var(--warn); }
+.inv-row--matched { background: rgba(74, 222, 128, 0.08); }
+.inv-row--matched td { color: var(--ok); }
+.inv-row--surplus { background: rgba(34, 211, 238, 0.08); }
+.inv-row--surplus td { color: var(--accent); }
+.inv-row--unknown td { color: var(--err); }
+.inv-row--idle td { color: #64748b; }
+
+.past-sessions { list-style: none; padding: 0; margin: 0; }
+.past-sessions li { padding: 0.4rem 0; border-bottom: 1px solid #334155; }
+.past-sessions a { color: var(--accent); text-decoration: none; }
+.past-sessions a:hover { text-decoration: underline; }
+
+.screen-only { }
+@media print {
+    .screen-only { display: none !important; }
+    body { background: white !important; color: black !important; }
+    .topbar, footer { display: none; }
+    .panel { background: white; border: 1px solid #ccc; }
+    .grid th, .grid td { color: black; border-color: #999; }
+    .inv-row--pending td { color: #666; }
+}
