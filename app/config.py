@@ -5,7 +5,8 @@ from pathlib import Path
 from typing import List
 
 from pydantic import Field, field_validator
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings, NoDecode, SettingsConfigDict
+from typing_extensions import Annotated
 
 
 class Settings(BaseSettings):
@@ -14,7 +15,10 @@ class Settings(BaseSettings):
     tz: str = "Europe/London"
     auth_token: str = ""
     external_lookup: str = "off"
-    warn_days: List[int] = Field(default_factory=lambda: [30, 90])
+    # NoDecode: prevents pydantic-settings from trying to JSON-parse the env
+    # value before our comma-splitting validator sees it. Env stays as
+    # ``BS_WARN_DAYS=30,90``; JSON array form ``[30,90]`` also still works.
+    warn_days: Annotated[List[int], NoDecode] = Field(default_factory=lambda: [30, 90])
     default_location: str = "pantry"
     data_dir: Path = Path("/data")
     backup_retention: int = 30
@@ -23,7 +27,12 @@ class Settings(BaseSettings):
     @classmethod
     def _coerce_warn_days(cls, v):
         if isinstance(v, str):
-            return [int(x) for x in v.split(",") if x.strip()]
+            s = v.strip()
+            if s.startswith("["):
+                # Accept legacy JSON form too.
+                import json
+                return [int(x) for x in json.loads(s)]
+            return [int(x) for x in s.split(",") if x.strip()]
         return v
 
     @property

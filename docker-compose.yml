@@ -11,6 +11,6 @@ services:
     environment:
       - BS_TZ=Europe/London
       - BS_AUTH_TOKEN=
-      - BS_EXTERNAL_LOOKUP=off
+      - BS_EXTERNAL_LOOKUP=on
       - BS_WARN_DAYS=30,90
       - BS_DEFAULT_LOCATION=pantry
