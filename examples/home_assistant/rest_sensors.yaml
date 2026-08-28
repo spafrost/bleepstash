@@ -1,0 +1,111 @@
+# Home Assistant RESTful sensor configuration for BleepStash.
+#
+# Drop this block into your Home Assistant `configuration.yaml` (or a
+# package file under `packages/`). After saving:
+#   1. Developer Tools → YAML → Check Configuration.
+#   2. Developer Tools → YAML → Reload RESTful entities (or restart HA).
+# The sensors then appear under Settings → Devices & Services → Entities.
+#
+# --- HOST / URL ---
+# Replace `http://bleepstash.local:8080` with wherever BleepStash is reachable
+# from Home Assistant. Common cases:
+#   - HA on the same host, BleepStash in Docker → http://<host-lan-ip>:8080
+#   - HA in Docker (bridge network)              → http://<host-lan-ip>:8080
+#   - HA and BleepStash on same Docker network   → http://bleepstash:8080
+#
+# --- AUTH ---
+# If BleepStash has `BS_AUTH_TOKEN` set, uncomment the `headers:` block below
+# and replace `YOUR_TOKEN`. Otherwise the LAN-only default (no token) is fine.
+
+rest:
+  - resource: http://bleepstash.local:8080/api/ha/sensors
+    scan_interval: 60
+    # headers:
+    #   Authorization: "Bearer YOUR_TOKEN"
+    sensor:
+      - name: "BleepStash mode"
+        unique_id: bleepstash_mode
+        value_template: "{{ value_json.mode }}"
+        icon: mdi:barcode-scan
+
+      - name: "BleepStash in stock"
+        unique_id: bleepstash_in_stock
+        value_template: "{{ value_json.in_stock_total }}"
+        unit_of_measurement: "items"
+        state_class: measurement
+        icon: mdi:package-variant
+
+      - name: "BleepStash consumed"
+        unique_id: bleepstash_consumed
+        value_template: "{{ value_json.consumed_total }}"
+        unit_of_measurement: "items"
+        state_class: total_increasing
+        icon: mdi:silverware-fork-knife
+
+      - name: "BleepStash discarded"
+        unique_id: bleepstash_discarded
+        value_template: "{{ value_json.discarded_total }}"
+        unit_of_measurement: "items"
+        state_class: total_increasing
+        icon: mdi:trash-can-outline
+
+      - name: "BleepStash waste rate"
+        unique_id: bleepstash_waste_rate
+        value_template: "{{ value_json.waste_rate_pct }}"
+        unit_of_measurement: "%"
+        state_class: measurement
+        icon: mdi:chart-donut
+
+      - name: "BleepStash expired in stash"
+        unique_id: bleepstash_expired_in_stash
+        value_template: "{{ value_json.expired_in_stash }}"
+        unit_of_measurement: "items"
+        state_class: measurement
+        icon: mdi:alert-circle-outline
+
+      - name: "BleepStash expiring within 30 days"
+        unique_id: bleepstash_expiring_30d
+        value_template: "{{ value_json.expiring_within['30'] }}"
+        unit_of_measurement: "items"
+        state_class: measurement
+        icon: mdi:calendar-clock
+
+      - name: "BleepStash expiring within 90 days"
+        unique_id: bleepstash_expiring_90d
+        value_template: "{{ value_json.expiring_within['90'] }}"
+        unit_of_measurement: "items"
+        state_class: measurement
+        icon: mdi:calendar-month
+
+      - name: "BleepStash unread notifications"
+        unique_id: bleepstash_unread_notifications
+        value_template: "{{ value_json.unread_notifications }}"
+        state_class: measurement
+        icon: mdi:bell-badge
+
+      - name: "BleepStash catalogue size"
+        unique_id: bleepstash_catalogue_size
+        value_template: "{{ value_json.catalogue_products }}"
+        unit_of_measurement: "products"
+        state_class: measurement
+        icon: mdi:notebook-outline
+
+# --- OPTIONAL: expiring-items list as a JSON attribute ---
+# Useful for a Lovelace markdown card or an automation that walks the list.
+  - resource: http://bleepstash.local:8080/api/ha/expiring?within_days=30
+    scan_interval: 300
+    sensor:
+      - name: "BleepStash expiring items 30d"
+        unique_id: bleepstash_expiring_items_30d
+        value_template: "{{ value_json | length }}"
+        unit_of_measurement: "items"
+        json_attributes_path: "$"
+        # value_json is the array itself. Expose the whole list as attributes.
+        json_attributes:
+          - stock_id
+          - ean
+          - name
+          - best_before
+          - days_left
+          - location
+        icon: mdi:calendar-clock
