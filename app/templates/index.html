@@ -1,18 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 <section class="scanner">
-    {% if state.mode.value == 'INVENTORY' and state.active_inventory_id %}
-    <div class="inv-banner">
-        Inventory session active —
-        <a href="/inventory">open live view</a>
-        (session <span class="mono">{{ state.active_inventory_id }}</span>).
-    </div>
-    {% endif %}
-    {% if state.active_blueprint_id %}
-    <div class="bp-banner">
-        Blueprint active — <a href="/blueprints">view progress</a>.
-    </div>
-    {% endif %}
     <h1>Scanner ready</h1>
     <p class="hint">
         Scan a control barcode to change mode, or a product barcode to log an item.
@@ -23,6 +11,33 @@
         <input id="scan-input" name="code" autofocus placeholder="^CTRL^MODE:ADD or EAN…" />
     </form>
     <div id="scan-status" class="status" aria-live="polite"></div>
+
+    {% if state.mode.value == 'INVENTORY' and state.active_inventory_id %}
+    <div class="panel inv-live-panel">
+        <div class="inv-live-head">
+            <h2>Inventory session</h2>
+            <div class="inv-progress-inline">
+                <span data-progress-done>—</span>/<span data-progress-total>—</span> products,
+                <span data-units-counted>—</span>/<span data-units-expected>—</span> units
+                &nbsp;·&nbsp;
+                <a href="/inventory" class="hint">Full view</a>
+                &nbsp;·&nbsp;
+                <span class="hint mono">{{ state.active_inventory_id }}</span>
+            </div>
+        </div>
+        <div class="inv-table-wrap">
+            <table class="grid inv-table">
+                <thead>
+                    <tr><th>Name</th><th>EAN</th><th>Expected</th><th>Counted</th><th>Δ</th><th>Status</th></tr>
+                </thead>
+                <tbody id="inv-tbody">
+                    <tr><td colspan="6" class="hint">Loading…</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% endif %}
+
     <details>
         <summary>Pending state</summary>
         <pre id="state-dump">{{ state.model_dump_json(indent=2) }}</pre>

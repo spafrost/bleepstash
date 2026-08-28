@@ -26,12 +26,18 @@
             <a href="/control-sheet">Control Sheet</a>
         </nav>
         <div class="mode-banner" id="mode-banner">Mode: <strong>{{ state.mode.value }}</strong></div>
+        <a href="/blueprints" class="bp-pill" id="bp-pill" hidden title="Active blueprint">
+            <span class="bp-pill-name" data-bp-name>—</span>
+            <span class="bp-pill-pct" data-bp-pct>—%</span>
+        </a>
         <a href="/dashboard" class="bell" title="Notifications">🔔<span class="badge" id="notif-badge" hidden>0</span></a>
     </header>
     <main>
         {% block content %}{% endblock %}
     </main>
     <footer>
+    <script src="/static/inventory.js"></script>
+    <script src="/static/bp_pill.js"></script>
         <small>v{{ version }} · <a href="/docs">API docs</a></small>
     </footer>
     <script src="/static/scanner.js"></script>

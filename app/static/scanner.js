@@ -44,6 +44,12 @@
                 if (stateDump) stateDump.textContent = JSON.stringify(s, null, 2);
             })
             .catch(() => {});
+        if (typeof window.refreshInventory === "function") {
+            window.refreshInventory();
+        }
+        if (typeof window.refreshBlueprintPill === "function") {
+            window.refreshBlueprintPill();
+        }
     }
 
     form.addEventListener("submit", (ev) => {

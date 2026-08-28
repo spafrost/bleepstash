@@ -51,6 +51,40 @@ body[data-mode="INVENTORY"] .mode-banner { background: rgba(250, 204, 21, 0.18);
     border-radius: 999px; padding: 0 5px;
 }
 
+/* Blueprint fulfilment pill (topbar) */
+.bp-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    background: rgba(148, 163, 184, 0.15);
+    color: var(--fg);
+    transition: background 0.15s ease;
+    max-width: 260px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.bp-pill:hover { background: rgba(148, 163, 184, 0.28); }
+.bp-pill-name {
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.bp-pill-pct {
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-weight: 700;
+}
+.bp-pill--low { background: rgba(248, 113, 113, 0.20); color: var(--err); }
+.bp-pill--low:hover { background: rgba(248, 113, 113, 0.32); }
+.bp-pill--partial { background: rgba(250, 204, 21, 0.20); color: var(--warn); }
+.bp-pill--partial:hover { background: rgba(250, 204, 21, 0.32); }
+.bp-pill--good { background: rgba(74, 222, 128, 0.20); color: var(--ok); }
+.bp-pill--good:hover { background: rgba(74, 222, 128, 0.32); }
+
 main {
     flex: 1;
     padding: 2rem 1.25rem;
@@ -253,6 +287,36 @@ footer a { color: var(--accent); }
 .inv-row--surplus td { color: var(--accent); }
 .inv-row--unknown td { color: var(--err); }
 .inv-row--idle td { color: #64748b; }
+
+/* Inline inventory panel on the scanner page */
+.inv-live-panel { margin-top: 1.25rem; }
+.inv-live-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+}
+.inv-live-head h2 { margin: 0; }
+.inv-progress-inline {
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+.inv-progress-inline span[data-progress-done],
+.inv-progress-inline span[data-progress-total],
+.inv-progress-inline span[data-units-counted],
+.inv-progress-inline span[data-units-expected] {
+    color: var(--fg);
+    font-weight: 600;
+}
+.inv-table-wrap {
+    max-height: 55vh;
+    overflow-y: auto;
+    border: 1px solid #334155;
+    border-radius: 6px;
+}
+.inv-table-wrap table { margin: 0; }
 
 .past-sessions { list-style: none; padding: 0; margin: 0; }
 .past-sessions li { padding: 0.4rem 0; border-bottom: 1px solid #334155; }

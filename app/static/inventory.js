@@ -56,5 +56,10 @@
         }
     }
 
+    // Expose so scanner.js can trigger an immediate refresh after each scan
+    // rather than waiting for the next 5 s tick.
+    window.refreshInventory = tick;
+
+    tick();
     setInterval(tick, 5000);
 })();
