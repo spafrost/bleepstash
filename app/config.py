@@ -67,6 +67,10 @@ class Settings(BaseSettings):
     def backups_dir(self) -> Path:
         return self.data_dir / "backups"
 
+    @property
+    def blueprints_path(self) -> Path:
+        return self.data_dir / "blueprints.json"
+
 
 _settings: Settings | None = None
 

@@ -259,6 +259,110 @@ footer a { color: var(--accent); }
 .past-sessions a { color: var(--accent); text-decoration: none; }
 .past-sessions a:hover { text-decoration: underline; }
 
+/* Blueprints */
+.nav-active-bp {
+    color: var(--ok) !important;
+    font-weight: 700;
+}
+.bp-banner {
+    background: rgba(74, 222, 128, 0.15);
+    color: var(--ok);
+    border-left: 4px solid var(--ok);
+    padding: 0.6rem 0.9rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+.bp-banner a { color: var(--ok); font-weight: 600; text-decoration: underline; }
+
+.badge {
+    display: inline-block;
+    background: rgba(148, 163, 184, 0.2);
+    color: var(--muted);
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+}
+.badge-active {
+    background: rgba(74, 222, 128, 0.2);
+    color: var(--ok);
+}
+.row-active { background: rgba(74, 222, 128, 0.05); }
+
+.bp-slot {
+    background: rgba(15, 23, 42, 0.5);
+    border-left: 4px solid var(--muted);
+    padding: 0.7rem 0.9rem;
+    border-radius: 6px;
+    margin-bottom: 0.75rem;
+}
+.bp-slot--matched { border-left-color: var(--ok); }
+.bp-slot--partial { border-left-color: var(--warn); }
+.bp-slot--empty { border-left-color: var(--err); }
+
+.bp-slot-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.4rem;
+}
+.bp-slot-progress {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.95rem;
+}
+.bp-count { font-weight: 700; }
+.bp-missing { color: var(--warn); font-size: 0.85rem; }
+.bp-done { color: var(--ok); font-weight: 700; }
+
+.bp-contributions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin: 0.35rem 0 0.55rem;
+}
+
+.bp-slot details {
+    margin-top: 0.4rem;
+    background: rgba(0, 0, 0, 0.15);
+    padding: 0.5rem 0.7rem;
+    border-radius: 6px;
+}
+.bp-slot details summary {
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+.add-slot-details {
+    margin-top: 1rem;
+    padding: 0.5rem 0.7rem;
+    border: 1px dashed #334155;
+    border-radius: 6px;
+}
+.add-slot-details summary {
+    cursor: pointer;
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.metadata-form textarea {
+    padding: 0.55rem 0.7rem;
+    background: var(--bg);
+    border: 1px solid #334155;
+    border-radius: 6px;
+    color: var(--fg);
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 0.9rem;
+    resize: vertical;
+}
+.metadata-form textarea:focus { border-color: var(--accent); outline: none; }
+
 .screen-only { }
 @media print {
     .screen-only { display: none !important; }

@@ -8,6 +8,11 @@
         (session <span class="mono">{{ state.active_inventory_id }}</span>).
     </div>
     {% endif %}
+    {% if state.active_blueprint_id %}
+    <div class="bp-banner">
+        Blueprint active — <a href="/blueprints">view progress</a>.
+    </div>
+    {% endif %}
     <h1>Scanner ready</h1>
     <p class="hint">
         Scan a control barcode to change mode, or a product barcode to log an item.

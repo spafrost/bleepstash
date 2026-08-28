@@ -71,3 +71,13 @@ async def set_active_inventory(session_id: Optional[str]) -> AppState:
         _state.active_inventory_id = session_id
         await _persist()
     return _state
+
+
+async def set_active_blueprint(blueprint_id: Optional[str]) -> AppState:
+    global _state
+    async with _state_lock:
+        if _state is None:
+            _state = await storage.load_state()
+        _state.active_blueprint_id = blueprint_id
+        await _persist()
+    return _state

@@ -12,6 +12,7 @@ from typing import Any, Dict, List, Optional
 from .config import get_settings
 from .models import (
     AppState,
+    Blueprint,
     InventorySession,
     Notification,
     Product,
@@ -141,6 +142,16 @@ async def save_sessions(sessions: Dict[str, InventorySession]) -> None:
     await _save_json(get_settings().sessions_path, payload)
 
 
+async def load_blueprints() -> Dict[str, Blueprint]:
+    raw = await _load_json(get_settings().blueprints_path, {})
+    return {bid: Blueprint.model_validate(b) for bid, b in raw.items()}
+
+
+async def save_blueprints(blueprints: Dict[str, Blueprint]) -> None:
+    payload = {bid: b.model_dump(mode="json") for bid, b in blueprints.items()}
+    await _save_json(get_settings().blueprints_path, payload)
+
+
 async def force_backup() -> Path:
     """Snapshot all top-level JSON files. Returns the backups directory path."""
     for path in (
@@ -148,6 +159,7 @@ async def force_backup() -> Path:
         get_settings().stock_path,
         get_settings().sessions_path,
         get_settings().notifications_path,
+        get_settings().blueprints_path,
         get_settings().state_path,
     ):
         async with _lock_for(path):

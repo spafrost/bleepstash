@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}New Blueprint · BleepStash{% endblock %}
+{% block content %}
+<section>
+    <p><a href="/blueprints">← Blueprints</a></p>
+    <h1>New Blueprint</h1>
+    <div class="panel">
+        <form method="post" action="/blueprints" class="metadata-form">
+            <label>
+                Name
+                <input type="text" name="name" required autofocus placeholder="e.g. 3-month household stash">
+            </label>
+            <label>
+                Description (optional)
+                <input type="text" name="description" placeholder="Short summary">
+            </label>
+            <div class="form-actions">
+                <button type="submit">Create</button>
+                <a href="/blueprints" class="secondary" style="padding: 0.55rem 1rem;">Cancel</a>
+            </div>
+        </form>
+    </div>
+    <p class="hint">You'll add slots on the next screen.</p>
+</section>
+{% endblock %}

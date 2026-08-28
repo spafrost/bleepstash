@@ -88,6 +88,7 @@ class AppState(BaseModel):
     mode: Mode = Mode.CONSUME
     pending_add: PendingAdd = Field(default_factory=PendingAdd)
     active_inventory_id: Optional[str] = None
+    active_blueprint_id: Optional[str] = None
     updated_at: datetime = Field(default_factory=_now)
 
 
@@ -130,3 +131,24 @@ class ScanResult(BaseModel):
     pending: Optional[PendingAdd] = None
     detail: Optional[Dict[str, Any]] = None
     tone: Literal["accept", "reject", "attention", "silent"] = "accept"
+
+
+class BlueprintSlot(BaseModel):
+    """One line item in a Blueprint — a target quantity of any-of-N EANs."""
+
+    id: str
+    label: str
+    required_qty: int = 1
+    accepted_eans: List[str] = Field(default_factory=list)
+    notes: Optional[str] = None
+
+
+class Blueprint(BaseModel):
+    """A named target state for the stash. Only one may be active at a time."""
+
+    id: str
+    name: str
+    description: Optional[str] = None
+    slots: List[BlueprintSlot] = Field(default_factory=list)
+    created_at: datetime = Field(default_factory=_now)
+    updated_at: datetime = Field(default_factory=_now)

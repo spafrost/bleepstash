@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}{{ f.blueprint.name }} · BleepStash{% endblock %}
+{% block content %}
+<section class="blueprint-detail">
+    <p><a href="/blueprints">← Blueprints</a></p>
+    <h1>
+        {{ f.blueprint.name }}
+        {% if f.is_active %}<span class="badge badge-active">ACTIVE</span>{% endif %}
+    </h1>
+    {% if f.blueprint.description %}
+    <p class="hint">{{ f.blueprint.description }}</p>
+    {% endif %}
+
+    <div class="tiles">
+        <div class="tile">
+            <div class="tile-label">Slots matched</div>
+            <div class="tile-value">{{ f.totals.slots_matched }} / {{ f.totals.slots_total }}</div>
+        </div>
+        <div class="tile">
+            <div class="tile-label">Units filled</div>
+            <div class="tile-value">{{ f.totals.filled }} / {{ f.totals.required }}</div>
+        </div>
+        <div class="tile tile--warn">
+            <div class="tile-label">Missing</div>
+            <div class="tile-value">{{ f.totals.missing }}</div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h2>Metadata</h2>
+        <form method="post" action="/blueprints/{{ f.blueprint.id }}" class="metadata-form">
+            <label>Name<input type="text" name="name" value="{{ f.blueprint.name }}" required></label>
+            <label>Description<input type="text" name="description" value="{{ f.blueprint.description or '' }}"></label>
+            <div class="form-actions">
+                <button type="submit">Save</button>
+            </div>
+        </form>
+        <div class="form-actions" style="margin-top: 0.75rem;">
+            {% if f.is_active %}
+            <form method="post" action="/blueprints/deactivate" class="inline-form">
+                <button type="submit" class="secondary">Deactivate</button>
+            </form>
+            {% else %}
+            <form method="post" action="/blueprints/{{ f.blueprint.id }}/activate" class="inline-form">
+                <button type="submit" class="secondary">Activate</button>
+            </form>
+            {% endif %}
+            <form method="post" action="/blueprints/{{ f.blueprint.id }}/delete" class="inline-form"
+                  onsubmit="return confirm('Delete blueprint {{ f.blueprint.name }}? This cannot be undone.');">
+                <button type="submit" class="delete-btn">Delete blueprint</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h2>Slots ({{ f.slots | length }})</h2>
+
+        {% for slot in f.slots %}
+        <div class="bp-slot bp-slot--{{ slot.status }}">
+            <div class="bp-slot-head">
+                <div>
+                    <strong>{{ slot.label }}</strong>
+                    {% if slot.notes %}<div class="hint">{{ slot.notes }}</div>{% endif %}
+                </div>
+                <div class="bp-slot-progress">
+                    <span class="bp-count">{{ slot.filled }} / {{ slot.required_qty }}</span>
+                    {% if slot.missing > 0 %}<span class="bp-missing">missing {{ slot.missing }}</span>{% endif %}
+                    {% if slot.status == 'matched' %}<span class="bp-done">✓</span>{% endif %}
+                </div>
+            </div>
+            {% if slot.contributions %}
+            <div class="bp-contributions">
+                {% for c in slot.contributions %}
+                <span class="chip">{{ c.name }} · {{ c.count }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+            <details>
+                <summary>Edit slot</summary>
+                <form method="post" action="/blueprints/{{ f.blueprint.id }}/slots/{{ slot.id }}" class="metadata-form">
+                    <label>Label<input type="text" name="label" value="{{ slot.label }}" required></label>
+                    <label>Required qty<input type="number" name="required_qty" value="{{ slot.required_qty }}" min="0" required></label>
+                    <label style="grid-column: 1/-1;">
+                        Accepted EANs (one per line)
+                        <textarea name="accepted_eans" rows="4">{% for e in slot.accepted_eans %}{{ e }}
+{% endfor %}</textarea>
+                    </label>
+                    <label style="grid-column: 1/-1;">Notes<input type="text" name="notes" value="{{ slot.notes or '' }}"></label>
+                    <div class="form-actions">
+                        <button type="submit">Save slot</button>
+                    </div>
+                </form>
+                <form method="post" action="/blueprints/{{ f.blueprint.id }}/slots/{{ slot.id }}/delete"
+                      class="inline-form" style="margin-top: 0.5rem;"
+                      onsubmit="return confirm('Delete slot {{ slot.label }}?');">
+                    <button type="submit" class="delete-btn">Delete slot</button>
+                </form>
+            </details>
+        </div>
+        {% endfor %}
+
+        {% if not f.slots %}
+        <p class="hint">No slots yet. Add one below.</p>
+        {% endif %}
+
+        <details {% if not f.slots %}open{% endif %} class="add-slot-details">
+            <summary>+ Add new slot</summary>
+            <form method="post" action="/blueprints/{{ f.blueprint.id }}/slots" class="metadata-form">
+                <label>Label<input type="text" name="label" required placeholder="e.g. Tinned tomatoes"></label>
+                <label>Required qty<input type="number" name="required_qty" value="1" min="0" required></label>
+                <label style="grid-column: 1/-1;">
+                    Accepted EANs (one per line)
+                    <textarea name="accepted_eans" rows="4" placeholder="3017620422003&#10;4061461281892"></textarea>
+                </label>
+                <label style="grid-column: 1/-1;">Notes<input type="text" name="notes"></label>
+                <div class="form-actions">
+                    <button type="submit">Add slot</button>
+                </div>
+            </form>
+        </details>
+    </div>
+</section>
+{% endblock %}

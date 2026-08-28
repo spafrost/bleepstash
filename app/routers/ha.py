@@ -9,6 +9,7 @@ from typing import Any, Dict, List
 
 from fastapi import APIRouter, Query
 
+from .. import blueprints as blueprints_mod
 from .. import dashboard, state, storage
 
 router = APIRouter(prefix="/api/ha", tags=["home-assistant"])
@@ -18,9 +19,31 @@ router = APIRouter(prefix="/api/ha", tags=["home-assistant"])
 async def sensors() -> Dict[str, Any]:
     summary = await dashboard.summary()
     st = await state.get()
+
+    blueprint_data: Dict[str, Any] = {
+        "blueprint_active_name": None,
+        "blueprint_slots_matched": 0,
+        "blueprint_slots_total": 0,
+        "blueprint_units_filled": 0,
+        "blueprint_units_required": 0,
+        "blueprint_units_missing": 0,
+    }
+    if st.active_blueprint_id:
+        f = await blueprints_mod.compute_fulfilment(st.active_blueprint_id)
+        if f is not None:
+            blueprint_data = {
+                "blueprint_active_name": f["blueprint"]["name"],
+                "blueprint_slots_matched": f["totals"]["slots_matched"],
+                "blueprint_slots_total": f["totals"]["slots_total"],
+                "blueprint_units_filled": f["totals"]["filled"],
+                "blueprint_units_required": f["totals"]["required"],
+                "blueprint_units_missing": f["totals"]["missing"],
+            }
+
     return {
         "mode": st.mode.value,
         "active_inventory_id": st.active_inventory_id,
+        "active_blueprint_id": st.active_blueprint_id,
         "in_stock_total": summary["totals"]["in_stock"],
         "consumed_total": summary["totals"]["consumed"],
         "discarded_total": summary["totals"]["discarded"],
@@ -29,6 +52,7 @@ async def sensors() -> Dict[str, Any]:
         "expiring_within": summary["expiring_within"],
         "unread_notifications": summary["unread_notifications"],
         "catalogue_products": summary["totals"]["catalogue_products"],
+        **blueprint_data,
     }
 
 

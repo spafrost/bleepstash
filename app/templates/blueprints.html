@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Blueprints · BleepStash{% endblock %}
+{% block content %}
+<section class="blueprints">
+    <h1>Blueprints</h1>
+    <p class="hint">
+        A blueprint defines what a "complete" stash looks like. Only one may be active at a time.
+        Each slot can accept multiple EANs — the same in-stock unit counts towards every slot whose accepted-EANs list includes its EAN.
+    </p>
+
+    <div class="form-actions" style="margin-bottom: 1rem;">
+        <a href="/blueprints/new"><button type="button">+ New blueprint</button></a>
+    </div>
+
+    {% if blueprints %}
+    <table class="grid">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Slots</th>
+                <th>Fulfilment</th>
+                <th>Missing</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for bp in blueprints %}
+            <tr class="{% if bp.is_active %}row-active{% endif %}">
+                <td>
+                    <a href="/blueprints/{{ bp.id }}">{{ bp.name }}</a>
+                    {% if bp.is_active %}<span class="badge badge-active">ACTIVE</span>{% endif %}
+                    {% if bp.description %}<div class="hint">{{ bp.description }}</div>{% endif %}
+                </td>
+                <td>{{ bp.slot_count }}</td>
+                <td>
+                    {% if bp.totals %}
+                    {{ bp.totals.slots_matched }} / {{ bp.totals.slots_total }} slots<br>
+                    <small class="hint">{{ bp.totals.filled }} / {{ bp.totals.required }} units</small>
+                    {% else %}—{% endif %}
+                </td>
+                <td>{% if bp.totals %}{{ bp.totals.missing }}{% else %}—{% endif %}</td>
+                <td>
+                    {% if bp.is_active %}
+                    <form method="post" action="/blueprints/deactivate" class="inline-form">
+                        <button type="submit" class="secondary">Deactivate</button>
+                    </form>
+                    {% else %}
+                    <form method="post" action="/blueprints/{{ bp.id }}/activate" class="inline-form">
+                        <button type="submit">Activate</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="hint">No blueprints yet. Create one to define the target state for your stash.</p>
+    {% endif %}
+</section>
+{% endblock %}
