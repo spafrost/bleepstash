@@ -12,7 +12,7 @@
                 <th>Name</th>
                 <th>Manufacturer</th>
                 <th>EAN</th>
-                <th>Weight</th>
+                <th>Size</th>
                 <th>Category</th>
                 <th>In stock</th>
             </tr>
@@ -23,7 +23,7 @@
                 <td><a href="/catalogue/{{ p.ean }}">{{ p.name }}</a></td>
                 <td>{{ p.manufacturer or "—" }}</td>
                 <td class="mono">{{ p.ean }}</td>
-                <td>{% if p.weight_g %}{{ "%.0f"|format(p.weight_g) }} g{% else %}—{% endif %}</td>
+                <td>{% if p.size and p.unit %}{{ p.size }} {{ p.unit }}{% else %}—{% endif %}</td>
                 <td>{{ p.category or "—" }}</td>
                 <td>{{ p.in_stock }}</td>
             </tr>
