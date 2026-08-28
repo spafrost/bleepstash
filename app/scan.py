@@ -88,11 +88,13 @@ async def _handle_add_control(intent: barcodes.BarcodeIntent) -> ScanResult:
 
     if intent.kind == "year":
         st = await state.update_pending(year=int(intent.value))  # type: ignore[arg-type]
+        if st.pending_add.is_ready:
+            return await _commit_ready_add(st)
         return _result(
             status=ScanResultStatus.WAITING,
             kind=ScanKind.CONTROL,
             current_state=st,
-            message=f"Year {intent.value} noted. Now scan a MONTH.",
+            message=f"Year {intent.value} noted.",
         )
 
     if intent.kind == "month":
@@ -103,7 +105,7 @@ async def _handle_add_control(intent: barcodes.BarcodeIntent) -> ScanResult:
             status=ScanResultStatus.WAITING,
             kind=ScanKind.CONTROL,
             current_state=st,
-            message=f"Month {intent.value:02d} noted. Waiting for a product scan.",
+            message=f"Month {intent.value:02d} noted.",
         )
 
     if intent.kind == "qty":
@@ -252,7 +254,7 @@ async def _handle_product(ean: str) -> ScanResult:
         )
         prefix = f"Product {label} noted."
         message = prefix + (
-            f" Next scan: {' then '.join(need)}." if need else " Awaiting CONFIRM."
+            f" Still need: {', '.join(need)}." if need else " Awaiting CONFIRM."
         )
         return _result(
             status=ScanResultStatus.WAITING,

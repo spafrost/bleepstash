@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Control Sheet (print) · BleepStash</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { background: white; color: black; font-family: system-ui, sans-serif; }
+        body { padding: 6mm; }
+
+        /* Screen-only header, hidden on print */
+        .toolbar {
+            display: flex; gap: 0.5rem; align-items: center;
+            padding: 0.5rem 0 1rem;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 0.75rem;
+        }
+        .toolbar a, .toolbar button {
+            font-size: 0.85rem;
+            padding: 0.35rem 0.7rem;
+            border: 1px solid #333;
+            background: white; color: black;
+            border-radius: 4px; cursor: pointer;
+            text-decoration: none;
+        }
+        .toolbar button:hover, .toolbar a:hover { background: #eee; }
+
+        /* Section header — minimal */
+        .sec {
+            margin-top: 3mm;
+        }
+        .sec:first-child { margin-top: 0; }
+        .sec h2 {
+            font-size: 8pt;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 1mm;
+            border-bottom: 0.3mm solid #999;
+            padding-bottom: 0.5mm;
+        }
+
+        /* Dense grid — as many QRs per row as fit */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(23mm, 1fr));
+            gap: 1.5mm;
+        }
+        .cell {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.5mm;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        .cell .qr {
+            width: 22mm;
+            height: 22mm;
+        }
+        {% if symbology == 'code128' %}
+        /* Code128 is much wider — fewer columns */
+        .grid { grid-template-columns: repeat(auto-fill, minmax(90mm, 1fr)); gap: 3mm; }
+        .cell .qr { width: auto; height: auto; }
+        {% endif %}
+        .cell .qr svg {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .cell .lbl {
+            font-size: 6.5pt;
+            font-weight: 600;
+            margin-top: 0.5mm;
+            text-align: center;
+            line-height: 1.1;
+        }
+
+        @media print {
+            .toolbar { display: none; }
+            body { padding: 0; }
+            @page { margin: 8mm; size: A4; }
+        }
+    </style>
+</head>
+<body>
+    <div class="toolbar">
+        <a href="/control-sheet?symbology={{ symbology }}">← Back to normal view</a>
+        <button type="button" onclick="window.print()">Print / Save as PDF</button>
+        <span style="margin-left:auto; font-size:0.75rem; color:#666;">
+            {{ symbology | upper }} · {{ total }} codes
+        </span>
+    </div>
+
+    {% for section in sections %}
+    <section class="sec">
+        <h2>{{ section.name }}</h2>
+        <div class="grid">
+            {% for item in section.entries %}
+            <div class="cell">
+                <div class="qr">{{ item.svg | safe }}</div>
+                <div class="lbl">{{ item.label }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endfor %}
+</body>
+</html>

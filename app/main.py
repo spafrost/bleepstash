@@ -91,3 +91,25 @@ async def control_sheet_page(
             "symbology": symbology,
         },
     )
+
+
+@app.get("/control-sheet/print", response_class=HTMLResponse)
+async def control_sheet_print(
+    request: Request,
+    symbology: str = "qr",
+) -> HTMLResponse:
+    """Chromeless, dense-grid version tuned to maximise codes per A4 page."""
+    if symbology not in (control_sheet.SYMBOLOGY_QR, control_sheet.SYMBOLOGY_CODE128):
+        symbology = control_sheet.DEFAULT_SYMBOLOGY
+    sections = control_sheet.build_sections(symbology=symbology)
+    total = sum(len(s["entries"]) for s in sections)
+    return templates.TemplateResponse(
+        request,
+        "control_sheet_print.html",
+        {
+            "version": __version__,
+            "sections": sections,
+            "symbology": symbology,
+            "total": total,
+        },
+    )

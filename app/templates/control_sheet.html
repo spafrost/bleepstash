@@ -15,6 +15,7 @@
             <a href="/control-sheet">Control Sheet</a>
         </nav>
         <div class="print-actions">
+            <a class="symbology-toggle" href="/control-sheet/print?symbology={{ symbology }}">Dense print view</a>
             <a class="symbology-toggle" href="?symbology={% if symbology == 'qr' %}code128{% else %}qr{% endif %}">
                 Switch to {% if symbology == 'qr' %}Code128{% else %}QR{% endif %}
             </a>
