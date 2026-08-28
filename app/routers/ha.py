@@ -24,9 +24,6 @@ async def sensors() -> Dict[str, Any]:
         "blueprint_active_name": None,
         "blueprint_slots_matched": 0,
         "blueprint_slots_total": 0,
-        "blueprint_units_filled": 0,
-        "blueprint_units_required": 0,
-        "blueprint_units_missing": 0,
     }
     if st.active_blueprint_id:
         f = await blueprints_mod.compute_fulfilment(st.active_blueprint_id)
@@ -35,9 +32,6 @@ async def sensors() -> Dict[str, Any]:
                 "blueprint_active_name": f["blueprint"]["name"],
                 "blueprint_slots_matched": f["totals"]["slots_matched"],
                 "blueprint_slots_total": f["totals"]["slots_total"],
-                "blueprint_units_filled": f["totals"]["filled"],
-                "blueprint_units_required": f["totals"]["required"],
-                "blueprint_units_missing": f["totals"]["missing"],
             }
 
     return {

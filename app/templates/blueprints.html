@@ -18,8 +18,7 @@
             <tr>
                 <th>Name</th>
                 <th>Slots</th>
-                <th>Fulfilment</th>
-                <th>Missing</th>
+                <th>Matched</th>
                 <th></th>
             </tr>
         </thead>
@@ -34,11 +33,9 @@
                 <td>{{ bp.slot_count }}</td>
                 <td>
                     {% if bp.totals %}
-                    {{ bp.totals.slots_matched }} / {{ bp.totals.slots_total }} slots<br>
-                    <small class="hint">{{ bp.totals.filled }} / {{ bp.totals.required }} units</small>
+                    {{ bp.totals.slots_matched }} / {{ bp.totals.slots_total }}
                     {% else %}—{% endif %}
                 </td>
-                <td>{% if bp.totals %}{{ bp.totals.missing }}{% else %}—{% endif %}</td>
                 <td>
                     {% if bp.is_active %}
                     <form method="post" action="/blueprints/deactivate" class="inline-form">

@@ -1,12 +1,10 @@
 // Attach behaviour to every .ean-picker in the blueprint detail page.
-// The picker is server-rendered next to a textarea; clicking + on a product
-// appends the EAN to the paired textarea (one per line, deduped). A live
-// filter input hides list items that don't match by name or EAN.
+// Picker appends bare EAN strings to the paired textarea (deduped). Filter
+// input hides list items that don't match by name or EAN.
 (function () {
     function initPicker(picker) {
         const filter = picker.querySelector(".picker-filter");
         const list = picker.querySelector(".picker-list");
-        // Textarea lives in the same <form> as the picker.
         const form = picker.closest("form");
         const textarea = form ? form.querySelector('textarea[name="accepted_eans"]') : null;
         if (!list || !textarea) return;
@@ -29,7 +27,10 @@
             const li = btn.closest("li");
             const ean = li ? li.dataset.ean : null;
             if (!ean) return;
-            const current = textarea.value.split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
+            const current = textarea.value
+                .split(/\r?\n/)
+                .map((s) => s.trim())
+                .filter(Boolean);
             if (current.includes(ean)) {
                 btn.classList.add("picker-done");
                 setTimeout(() => btn.classList.remove("picker-done"), 800);

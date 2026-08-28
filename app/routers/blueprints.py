@@ -103,7 +103,9 @@ async def update_blueprint(
     description: str = Form(""),
 ) -> HTMLResponse:
     updated = await blueprints_mod.update(
-        blueprint_id, name=name.strip() or None, description=description.strip()
+        blueprint_id,
+        name=name.strip() or None,
+        description=description.strip(),
     )
     if updated is None:
         raise HTTPException(status_code=404)
@@ -130,6 +132,7 @@ async def add_slot(
     blueprint_id: str,
     label: str = Form(...),
     required_qty: int = Form(1),
+    unit: str = Form("units"),
     accepted_eans: str = Form(""),
     notes: str = Form(""),
 ) -> HTMLResponse:
@@ -138,6 +141,7 @@ async def add_slot(
         blueprint_id,
         label=label.strip(),
         required_qty=required_qty,
+        unit=unit,
         accepted_eans=eans,
         notes=notes.strip(),
     )
@@ -153,6 +157,7 @@ async def edit_slot(
     slot_id: str,
     label: str = Form(...),
     required_qty: int = Form(1),
+    unit: str = Form("units"),
     accepted_eans: str = Form(""),
     notes: str = Form(""),
 ) -> HTMLResponse:
@@ -162,6 +167,7 @@ async def edit_slot(
         slot_id,
         label=label.strip(),
         required_qty=required_qty,
+        unit=unit,
         accepted_eans=eans,
         notes=notes.strip(),
     )

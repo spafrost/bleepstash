@@ -13,6 +13,7 @@ from .config import get_settings
 from .models import (
     AppState,
     Blueprint,
+    BLUEPRINT_TEMPLATE_VERSION,
     InventorySession,
     Notification,
     Product,
@@ -143,8 +144,19 @@ async def save_sessions(sessions: Dict[str, InventorySession]) -> None:
 
 
 async def load_blueprints() -> Dict[str, Blueprint]:
+    """Load blueprints, skipping any whose ``template_version`` doesn't match
+    the current model. Old blueprints stay on disk but are inert."""
     raw = await _load_json(get_settings().blueprints_path, {})
-    return {bid: Blueprint.model_validate(b) for bid, b in raw.items()}
+    out: Dict[str, Blueprint] = {}
+    for bid, b in raw.items():
+        try:
+            bp = Blueprint.model_validate(b)
+        except Exception:
+            continue
+        if bp.template_version != BLUEPRINT_TEMPLATE_VERSION:
+            continue
+        out[bid] = bp
+    return out
 
 
 async def save_blueprints(blueprints: Dict[str, Blueprint]) -> None:

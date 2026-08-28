@@ -1,211 +1,241 @@
 {
   "bp_seed_swedish_3day": {
     "id": "bp_seed_swedish_3day",
+    "template_version": 2,
     "name": "Starter — 3-day kit (EU 72-hour)",
-    "description": "Starter template. Baseline 3-day preparedness kit aligned with EU 72-hour civil-defence guidance. Empty accepted-EAN lists — fill in the specific SKUs you buy. Edit or delete freely.",
+    "description": "Starter template. Baseline 3-day preparedness kit aligned with EU 72-hour civil-defence guidance. Empty accepted-EAN lists — fill in the specific SKUs you buy. Each slot has its own unit; naive string match against product.unit determines fulfilment. Edit or delete freely.",
     "slots": [
       {
         "id": "bps_seed_swedish_3day_rice",
         "label": "Rice",
-        "required_qty": 1,
+        "required_qty": 500,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "500g bags of dry rice"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_pasta",
         "label": "Pasta",
-        "required_qty": 1,
+        "required_qty": 500,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "500g bags of dried pasta"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_oats",
         "label": "Oats",
-        "required_qty": 1,
+        "required_qty": 500,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "500g bags"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_red_lentils",
         "label": "Red lentils",
-        "required_qty": 1,
+        "required_qty": 250,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "500g bags of dry red lentils"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_chickpeas",
         "label": "Canned chickpeas",
-        "required_qty": 1,
+        "required_qty": 400,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "400g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_kidney_beans",
         "label": "Canned kidney beans",
-        "required_qty": 1,
+        "required_qty": 400,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "400g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_cannellini_beans",
         "label": "Canned cannellini beans",
-        "required_qty": 1,
+        "required_qty": 400,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "400g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_baked_beans",
         "label": "Baked beans",
-        "required_qty": 2,
+        "required_qty": 830,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~415g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_chopped_tomatoes",
         "label": "Canned chopped tomatoes",
-        "required_qty": 2,
+        "required_qty": 800,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "400g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_tomato_puree",
         "label": "Tomato puree",
-        "required_qty": 1,
+        "required_qty": 200,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "200g tubes"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_sweetcorn",
         "label": "Tinned sweetcorn",
-        "required_qty": 1,
+        "required_qty": 325,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~325g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_peas",
         "label": "Tinned peas",
-        "required_qty": 1,
+        "required_qty": 300,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~300g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_tuna",
         "label": "Tinned tuna",
-        "required_qty": 2,
+        "required_qty": 290,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~145g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_sardines",
         "label": "Tinned sardines",
-        "required_qty": 1,
+        "required_qty": 120,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~120g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_tinned_meat",
         "label": "Tinned meat",
-        "required_qty": 1,
+        "required_qty": 200,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~200g cans (corned beef / ham / chicken)"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_coconut_milk",
         "label": "Coconut milk",
-        "required_qty": 1,
+        "required_qty": 400,
+        "unit": "ml",
         "accepted_eans": [],
-        "notes": "400ml cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_nut_butter",
         "label": "Peanut / almond butter",
-        "required_qty": 1,
+        "required_qty": 340,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~340g jars"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_nuts",
         "label": "Nuts",
-        "required_qty": 2,
+        "required_qty": 150,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "100g packs"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_dried_fruit",
         "label": "Dried fruit",
-        "required_qty": 2,
+        "required_qty": 150,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "100g packs"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_tinned_fruit",
         "label": "Tinned fruit",
-        "required_qty": 1,
+        "required_qty": 400,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "400g cans (peaches etc.)"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_uht_milk",
         "label": "UHT / long-life milk",
-        "required_qty": 1,
+        "required_qty": 1000,
+        "unit": "ml",
         "accepted_eans": [],
-        "notes": "1 L cartons"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_crackers",
         "label": "Crackers / crispbread",
-        "required_qty": 1,
+        "required_qty": 250,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~250g packs"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_olive_oil",
         "label": "Olive oil",
-        "required_qty": 1,
+        "required_qty": 250,
+        "unit": "ml",
         "accepted_eans": [],
-        "notes": "250 ml bottles"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_sweetener",
         "label": "Honey / sugar",
-        "required_qty": 2,
+        "required_qty": 150,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "100g portions"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_stock_cubes",
         "label": "Stock cubes",
         "required_qty": 1,
+        "unit": "boxes",
         "accepted_eans": [],
-        "notes": "boxes (~8-12 cubes)"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_spices",
         "label": "Spices / dried herbs",
         "required_qty": 1,
+        "unit": "on-hand",
         "accepted_eans": [],
-        "notes": "essentials on hand"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_salt",
         "label": "Salt",
         "required_qty": 1,
+        "unit": "on-hand",
         "accepted_eans": [],
-        "notes": "tub on hand"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_tea_coffee",
         "label": "Tea / coffee",
         "required_qty": 1,
+        "unit": "on-hand",
         "accepted_eans": [],
-        "notes": "packs on hand"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_3day_water",
         "label": "Bottled water",
-        "required_qty": 12,
+        "required_qty": 18,
+        "unit": "L",
         "accepted_eans": [],
-        "notes": "1.5 L bottles (~3 L per person per day)"
+        "notes": null
       }
     ],
     "created_at": "2026-08-28T00:00:00+00:00",
@@ -213,218 +243,249 @@
   },
   "bp_seed_swedish_7day": {
     "id": "bp_seed_swedish_7day",
+    "template_version": 2,
     "name": "Starter — 7-day kit (Swedish MCF baseline)",
     "description": "Starter template. 7-day baseline aligned with Sweden's MCF (Civil Defence and Resilience Agency) 2024 guidance. Recommended starting point. Empty accepted-EAN lists — fill in as you buy. Edit or delete freely.",
     "slots": [
       {
         "id": "bps_seed_swedish_7day_rice",
         "label": "Rice",
-        "required_qty": 2,
+        "required_qty": 1000,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "500g bags of dry rice"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_pasta",
         "label": "Pasta",
-        "required_qty": 2,
+        "required_qty": 1000,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "500g bags of dried pasta"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_oats",
         "label": "Oats",
-        "required_qty": 2,
+        "required_qty": 1000,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "500g bags"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_red_lentils",
         "label": "Red lentils",
-        "required_qty": 1,
+        "required_qty": 500,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "500g bags of dry red lentils"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_chickpeas",
         "label": "Canned chickpeas",
-        "required_qty": 2,
+        "required_qty": 800,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "400g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_kidney_beans",
         "label": "Canned kidney beans",
-        "required_qty": 2,
+        "required_qty": 800,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "400g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_cannellini_beans",
         "label": "Canned cannellini beans",
-        "required_qty": 1,
+        "required_qty": 400,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "400g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_baked_beans",
         "label": "Baked beans",
-        "required_qty": 3,
+        "required_qty": 1245,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~415g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_chopped_tomatoes",
         "label": "Canned chopped tomatoes",
-        "required_qty": 5,
+        "required_qty": 2000,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "400g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_tomato_puree",
         "label": "Tomato puree",
-        "required_qty": 1,
+        "required_qty": 200,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "200g tubes"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_sweetcorn",
         "label": "Tinned sweetcorn",
-        "required_qty": 2,
+        "required_qty": 650,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~325g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_peas",
         "label": "Tinned peas",
-        "required_qty": 2,
+        "required_qty": 600,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~300g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_tuna",
         "label": "Tinned tuna",
-        "required_qty": 4,
+        "required_qty": 580,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~145g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_sardines",
         "label": "Tinned sardines",
-        "required_qty": 3,
+        "required_qty": 360,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~120g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_tinned_meat",
         "label": "Tinned meat",
-        "required_qty": 3,
+        "required_qty": 600,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~200g cans (corned beef / ham / chicken)"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_coconut_milk",
         "label": "Coconut milk",
-        "required_qty": 1,
+        "required_qty": 400,
+        "unit": "ml",
         "accepted_eans": [],
-        "notes": "400ml cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_nut_butter",
         "label": "Peanut / almond butter",
-        "required_qty": 1,
+        "required_qty": 340,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~340g jars"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_nuts",
         "label": "Nuts",
-        "required_qty": 3,
+        "required_qty": 300,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "100g packs"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_dried_fruit",
         "label": "Dried fruit",
-        "required_qty": 3,
+        "required_qty": 300,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "100g packs"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_tinned_fruit",
         "label": "Tinned fruit",
-        "required_qty": 3,
+        "required_qty": 1200,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "400g cans (peaches etc.)"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_uht_milk",
         "label": "UHT / long-life milk",
-        "required_qty": 3,
+        "required_qty": 3000,
+        "unit": "ml",
         "accepted_eans": [],
-        "notes": "1 L cartons"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_crackers",
         "label": "Crackers / crispbread",
-        "required_qty": 2,
+        "required_qty": 500,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~250g packs"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_olive_oil",
         "label": "Olive oil",
-        "required_qty": 1,
+        "required_qty": 250,
+        "unit": "ml",
         "accepted_eans": [],
-        "notes": "250 ml bottles"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_sweetener",
         "label": "Honey / sugar",
-        "required_qty": 3,
+        "required_qty": 300,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "100g portions"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_stock_cubes",
         "label": "Stock cubes",
         "required_qty": 1,
+        "unit": "boxes",
         "accepted_eans": [],
-        "notes": "boxes (~8-12 cubes)"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_spices",
         "label": "Spices / dried herbs",
         "required_qty": 1,
+        "unit": "on-hand",
         "accepted_eans": [],
-        "notes": "essentials on hand"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_salt",
         "label": "Salt",
         "required_qty": 1,
+        "unit": "on-hand",
         "accepted_eans": [],
-        "notes": "tub on hand"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_tea_coffee",
         "label": "Tea / coffee",
         "required_qty": 1,
+        "unit": "on-hand",
         "accepted_eans": [],
-        "notes": "packs on hand"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_multivitamins",
         "label": "Multivitamins",
         "required_qty": 1,
+        "unit": "on-hand",
         "accepted_eans": [],
-        "notes": "tub on hand"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_7day_water",
         "label": "Bottled water",
-        "required_qty": 28,
+        "required_qty": 42,
+        "unit": "L",
         "accepted_eans": [],
-        "notes": "1.5 L bottles (~3 L per person per day)"
+        "notes": null
       }
     ],
     "created_at": "2026-08-28T00:00:00+00:00",
@@ -432,218 +493,249 @@
   },
   "bp_seed_swedish_14day": {
     "id": "bp_seed_swedish_14day",
+    "template_version": 2,
     "name": "Starter — 14-day kit",
     "description": "Starter template. Solid buffer for extended disruption. Empty accepted-EAN lists — fill in as you buy. Edit or delete freely.",
     "slots": [
       {
         "id": "bps_seed_swedish_14day_rice",
         "label": "Rice",
-        "required_qty": 4,
+        "required_qty": 2000,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "500g bags of dry rice"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_pasta",
         "label": "Pasta",
-        "required_qty": 4,
+        "required_qty": 2000,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "500g bags of dried pasta"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_oats",
         "label": "Oats",
-        "required_qty": 4,
+        "required_qty": 2000,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "500g bags"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_red_lentils",
         "label": "Red lentils",
-        "required_qty": 2,
+        "required_qty": 1000,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "500g bags of dry red lentils"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_chickpeas",
         "label": "Canned chickpeas",
-        "required_qty": 4,
+        "required_qty": 1600,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "400g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_kidney_beans",
         "label": "Canned kidney beans",
-        "required_qty": 4,
+        "required_qty": 1600,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "400g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_cannellini_beans",
         "label": "Canned cannellini beans",
-        "required_qty": 2,
+        "required_qty": 800,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "400g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_baked_beans",
         "label": "Baked beans",
-        "required_qty": 6,
+        "required_qty": 2490,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~415g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_chopped_tomatoes",
         "label": "Canned chopped tomatoes",
-        "required_qty": 10,
+        "required_qty": 4000,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "400g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_tomato_puree",
         "label": "Tomato puree",
-        "required_qty": 2,
+        "required_qty": 400,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "200g tubes"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_sweetcorn",
         "label": "Tinned sweetcorn",
-        "required_qty": 4,
+        "required_qty": 1300,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~325g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_peas",
         "label": "Tinned peas",
-        "required_qty": 4,
+        "required_qty": 1200,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~300g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_tuna",
         "label": "Tinned tuna",
-        "required_qty": 8,
+        "required_qty": 1160,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~145g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_sardines",
         "label": "Tinned sardines",
-        "required_qty": 6,
+        "required_qty": 720,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~120g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_tinned_meat",
         "label": "Tinned meat",
-        "required_qty": 6,
+        "required_qty": 1200,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~200g cans (corned beef / ham / chicken)"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_coconut_milk",
         "label": "Coconut milk",
-        "required_qty": 2,
+        "required_qty": 800,
+        "unit": "ml",
         "accepted_eans": [],
-        "notes": "400ml cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_nut_butter",
         "label": "Peanut / almond butter",
-        "required_qty": 2,
+        "required_qty": 680,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~340g jars"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_nuts",
         "label": "Nuts",
-        "required_qty": 6,
+        "required_qty": 600,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "100g packs"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_dried_fruit",
         "label": "Dried fruit",
-        "required_qty": 6,
+        "required_qty": 600,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "100g packs"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_tinned_fruit",
         "label": "Tinned fruit",
-        "required_qty": 6,
+        "required_qty": 2400,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "400g cans (peaches etc.)"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_uht_milk",
         "label": "UHT / long-life milk",
-        "required_qty": 6,
+        "required_qty": 6000,
+        "unit": "ml",
         "accepted_eans": [],
-        "notes": "1 L cartons"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_crackers",
         "label": "Crackers / crispbread",
-        "required_qty": 4,
+        "required_qty": 1000,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~250g packs"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_olive_oil",
         "label": "Olive oil",
-        "required_qty": 2,
+        "required_qty": 500,
+        "unit": "ml",
         "accepted_eans": [],
-        "notes": "250 ml bottles"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_sweetener",
         "label": "Honey / sugar",
-        "required_qty": 6,
+        "required_qty": 600,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "100g portions"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_stock_cubes",
         "label": "Stock cubes",
         "required_qty": 1,
+        "unit": "boxes",
         "accepted_eans": [],
-        "notes": "boxes (~8-12 cubes)"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_spices",
         "label": "Spices / dried herbs",
         "required_qty": 1,
+        "unit": "on-hand",
         "accepted_eans": [],
-        "notes": "essentials on hand"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_salt",
         "label": "Salt",
         "required_qty": 1,
+        "unit": "on-hand",
         "accepted_eans": [],
-        "notes": "tub on hand"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_tea_coffee",
         "label": "Tea / coffee",
         "required_qty": 1,
+        "unit": "on-hand",
         "accepted_eans": [],
-        "notes": "packs on hand"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_multivitamins",
         "label": "Multivitamins",
         "required_qty": 1,
+        "unit": "on-hand",
         "accepted_eans": [],
-        "notes": "tub on hand"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_14day_water",
         "label": "Bottled water",
-        "required_qty": 56,
+        "required_qty": 84,
+        "unit": "L",
         "accepted_eans": [],
-        "notes": "1.5 L bottles (~3 L per person per day)"
+        "notes": null
       }
     ],
     "created_at": "2026-08-28T00:00:00+00:00",
@@ -651,218 +743,249 @@
   },
   "bp_seed_swedish_30day": {
     "id": "bp_seed_swedish_30day",
+    "template_version": 2,
     "name": "Starter — 30-day kit",
     "description": "Starter template. Full month of household supply. Empty accepted-EAN lists — fill in as you buy. Edit or delete freely.",
     "slots": [
       {
         "id": "bps_seed_swedish_30day_rice",
         "label": "Rice",
-        "required_qty": 9,
+        "required_qty": 4500,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "500g bags of dry rice"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_pasta",
         "label": "Pasta",
-        "required_qty": 9,
+        "required_qty": 4500,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "500g bags of dried pasta"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_oats",
         "label": "Oats",
-        "required_qty": 9,
+        "required_qty": 4500,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "500g bags"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_red_lentils",
         "label": "Red lentils",
-        "required_qty": 4,
+        "required_qty": 2000,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "500g bags of dry red lentils"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_chickpeas",
         "label": "Canned chickpeas",
-        "required_qty": 9,
+        "required_qty": 3600,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "400g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_kidney_beans",
         "label": "Canned kidney beans",
-        "required_qty": 9,
+        "required_qty": 3600,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "400g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_cannellini_beans",
         "label": "Canned cannellini beans",
-        "required_qty": 4,
+        "required_qty": 1600,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "400g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_baked_beans",
         "label": "Baked beans",
-        "required_qty": 13,
+        "required_qty": 5395,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~415g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_chopped_tomatoes",
         "label": "Canned chopped tomatoes",
-        "required_qty": 21,
+        "required_qty": 8400,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "400g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_tomato_puree",
         "label": "Tomato puree",
-        "required_qty": 4,
+        "required_qty": 800,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "200g tubes"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_sweetcorn",
         "label": "Tinned sweetcorn",
-        "required_qty": 9,
+        "required_qty": 2925,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~325g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_peas",
         "label": "Tinned peas",
-        "required_qty": 9,
+        "required_qty": 2700,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~300g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_tuna",
         "label": "Tinned tuna",
-        "required_qty": 17,
+        "required_qty": 2465,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~145g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_sardines",
         "label": "Tinned sardines",
-        "required_qty": 13,
+        "required_qty": 1560,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~120g cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_tinned_meat",
         "label": "Tinned meat",
-        "required_qty": 13,
+        "required_qty": 2600,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~200g cans (corned beef / ham / chicken)"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_coconut_milk",
         "label": "Coconut milk",
-        "required_qty": 4,
+        "required_qty": 1600,
+        "unit": "ml",
         "accepted_eans": [],
-        "notes": "400ml cans"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_nut_butter",
         "label": "Peanut / almond butter",
-        "required_qty": 4,
+        "required_qty": 1360,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~340g jars"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_nuts",
         "label": "Nuts",
-        "required_qty": 13,
+        "required_qty": 1300,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "100g packs"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_dried_fruit",
         "label": "Dried fruit",
-        "required_qty": 13,
+        "required_qty": 1300,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "100g packs"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_tinned_fruit",
         "label": "Tinned fruit",
-        "required_qty": 13,
+        "required_qty": 5200,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "400g cans (peaches etc.)"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_uht_milk",
         "label": "UHT / long-life milk",
-        "required_qty": 13,
+        "required_qty": 13000,
+        "unit": "ml",
         "accepted_eans": [],
-        "notes": "1 L cartons"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_crackers",
         "label": "Crackers / crispbread",
-        "required_qty": 9,
+        "required_qty": 2250,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "~250g packs"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_olive_oil",
         "label": "Olive oil",
-        "required_qty": 4,
+        "required_qty": 1000,
+        "unit": "ml",
         "accepted_eans": [],
-        "notes": "250 ml bottles"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_sweetener",
         "label": "Honey / sugar",
-        "required_qty": 13,
+        "required_qty": 1300,
+        "unit": "g",
         "accepted_eans": [],
-        "notes": "100g portions"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_stock_cubes",
         "label": "Stock cubes",
         "required_qty": 2,
+        "unit": "boxes",
         "accepted_eans": [],
-        "notes": "boxes (~8-12 cubes)"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_spices",
         "label": "Spices / dried herbs",
         "required_qty": 1,
+        "unit": "on-hand",
         "accepted_eans": [],
-        "notes": "essentials on hand"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_salt",
         "label": "Salt",
         "required_qty": 1,
+        "unit": "on-hand",
         "accepted_eans": [],
-        "notes": "tub on hand"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_tea_coffee",
         "label": "Tea / coffee",
         "required_qty": 1,
+        "unit": "on-hand",
         "accepted_eans": [],
-        "notes": "packs on hand"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_multivitamins",
         "label": "Multivitamins",
         "required_qty": 1,
+        "unit": "on-hand",
         "accepted_eans": [],
-        "notes": "tub on hand"
+        "notes": null
       },
       {
         "id": "bps_seed_swedish_30day_water",
         "label": "Bottled water",
-        "required_qty": 120,
+        "required_qty": 180,
+        "unit": "L",
         "accepted_eans": [],
-        "notes": "1.5 L bottles (~3 L per person per day)"
+        "notes": null
       }
     ],
     "created_at": "2026-08-28T00:00:00+00:00",

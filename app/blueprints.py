@@ -79,6 +79,7 @@ async def add_slot(
     *,
     label: str,
     required_qty: int,
+    unit: str,
     accepted_eans: List[str],
     notes: Optional[str] = None,
 ) -> Optional[BlueprintSlot]:
@@ -90,6 +91,7 @@ async def add_slot(
         id=f"bps_{ULID()}",
         label=label,
         required_qty=max(0, int(required_qty)),
+        unit=(unit or "units").strip() or "units",
         accepted_eans=[e.strip() for e in accepted_eans if e.strip()],
         notes=notes or None,
     )
@@ -107,6 +109,7 @@ async def update_slot(
     *,
     label: Optional[str] = None,
     required_qty: Optional[int] = None,
+    unit: Optional[str] = None,
     accepted_eans: Optional[List[str]] = None,
     notes: Optional[str] = None,
 ) -> Optional[BlueprintSlot]:
@@ -121,6 +124,8 @@ async def update_slot(
                 changes["label"] = label
             if required_qty is not None:
                 changes["required_qty"] = max(0, int(required_qty))
+            if unit is not None:
+                changes["unit"] = (unit or "units").strip() or "units"
             if accepted_eans is not None:
                 changes["accepted_eans"] = [e.strip() for e in accepted_eans if e.strip()]
             if notes is not None:
@@ -179,39 +184,71 @@ async def compute_fulfilment(blueprint_id: str) -> Optional[Dict[str, Any]]:
             in_stock_by_ean[item.ean] = in_stock_by_ean.get(item.ean, 0) + 1
 
     slots_out: List[Dict[str, Any]] = []
-    total_required = 0
-    total_filled = 0
     for slot in bp.slots:
-        available = sum(in_stock_by_ean.get(e, 0) for e in slot.accepted_eans)
-        filled = min(available, slot.required_qty)
-        missing = max(0, slot.required_qty - filled)
         contributions: List[Dict[str, Any]] = []
-        for e in slot.accepted_eans:
-            n = in_stock_by_ean.get(e, 0)
-            if n > 0:
-                p = products.get(e)
+        total_available = 0.0
+        slot_unit_norm = (slot.unit or "").strip().lower()
+        for ean in slot.accepted_eans:
+            n = in_stock_by_ean.get(ean, 0)
+            if n == 0:
+                continue
+            p = products.get(ean)
+            if p is None:
                 contributions.append({
-                    "ean": e,
-                    "name": (p.name if p else None) or "Unknown",
+                    "ean": ean,
+                    "name": "Unknown",
                     "count": n,
+                    "product_unit": None,
+                    "product_size": None,
+                    "contributed_total": 0,
+                    "unit_mismatch": True,
                 })
-        status = "matched" if missing == 0 and slot.required_qty > 0 else (
-            "partial" if filled > 0 else "empty"
-        )
+                continue
+            p_unit_norm = (p.unit or "").strip().lower()
+            if p_unit_norm and p_unit_norm == slot_unit_norm and p.size:
+                contributed = n * p.size
+                total_available += contributed
+                contributions.append({
+                    "ean": ean,
+                    "name": p.name or "Unknown",
+                    "count": n,
+                    "product_unit": p.unit,
+                    "product_size": p.size,
+                    "contributed_total": contributed,
+                    "unit_mismatch": False,
+                })
+            else:
+                contributions.append({
+                    "ean": ean,
+                    "name": p.name or "Unknown",
+                    "count": n,
+                    "product_unit": p.unit,
+                    "product_size": p.size,
+                    "contributed_total": 0,
+                    "unit_mismatch": True,
+                })
+        filled = min(total_available, slot.required_qty) if slot.required_qty > 0 else total_available
+        missing = max(0, slot.required_qty - filled)
+        if slot.required_qty <= 0:
+            status = "matched"
+        elif missing == 0:
+            status = "matched"
+        elif filled > 0:
+            status = "partial"
+        else:
+            status = "empty"
         slots_out.append({
             "id": slot.id,
             "label": slot.label,
+            "unit": slot.unit,
             "required_qty": slot.required_qty,
             "accepted_eans": list(slot.accepted_eans),
             "notes": slot.notes,
             "filled": filled,
-            "available": available,
             "missing": missing,
             "status": status,
             "contributions": contributions,
         })
-        total_required += slot.required_qty
-        total_filled += filled
 
     st = await state.get()
     return {
@@ -219,14 +256,12 @@ async def compute_fulfilment(blueprint_id: str) -> Optional[Dict[str, Any]]:
             "id": bp.id,
             "name": bp.name,
             "description": bp.description,
+            "template_version": bp.template_version,
             "created_at": bp.created_at.isoformat(),
             "updated_at": bp.updated_at.isoformat(),
         },
         "slots": slots_out,
         "totals": {
-            "required": total_required,
-            "filled": total_filled,
-            "missing": max(0, total_required - total_filled),
             "slots_matched": sum(1 for s in slots_out if s["status"] == "matched"),
             "slots_total": len(slots_out),
         },

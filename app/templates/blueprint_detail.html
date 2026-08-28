@@ -16,14 +16,6 @@
             <div class="tile-label">Slots matched</div>
             <div class="tile-value">{{ f.totals.slots_matched }} / {{ f.totals.slots_total }}</div>
         </div>
-        <div class="tile">
-            <div class="tile-label">Units filled</div>
-            <div class="tile-value">{{ f.totals.filled }} / {{ f.totals.required }}</div>
-        </div>
-        <div class="tile tile--warn">
-            <div class="tile-label">Missing</div>
-            <div class="tile-value">{{ f.totals.missing }}</div>
-        </div>
     </div>
 
     <div class="panel">
@@ -63,15 +55,23 @@
                     {% if slot.notes %}<div class="hint">{{ slot.notes }}</div>{% endif %}
                 </div>
                 <div class="bp-slot-progress">
-                    <span class="bp-count">{{ slot.filled }} / {{ slot.required_qty }}</span>
-                    {% if slot.missing > 0 %}<span class="bp-missing">missing {{ slot.missing }}</span>{% endif %}
+                    <span class="bp-count">{{ slot.filled | int if slot.filled == slot.filled | int else slot.filled }} / {{ slot.required_qty }} {{ slot.unit }}</span>
+                    {% if slot.missing > 0 %}<span class="bp-missing">missing {{ slot.missing | int if slot.missing == slot.missing | int else slot.missing }} {{ slot.unit }}</span>{% endif %}
                     {% if slot.status == 'matched' %}<span class="bp-done">✓</span>{% endif %}
                 </div>
             </div>
             {% if slot.contributions %}
             <div class="bp-contributions">
                 {% for c in slot.contributions %}
-                <span class="chip">{{ c.name }} · {{ c.count }}</span>
+                {% if c.unit_mismatch %}
+                <span class="chip chip-mismatch" title="Unit mismatch: product is in {{ c.product_unit or '(unset)' }}, slot expects {{ slot.unit }}">
+                    ⚠ {{ c.name }} · {{ c.count }} · in {{ c.product_unit or '(unset)' }}
+                </span>
+                {% else %}
+                <span class="chip">
+                    {{ c.name }} · {{ c.count }} × {{ c.product_size }} {{ c.product_unit }} = {{ c.contributed_total | int if c.contributed_total == c.contributed_total | int else c.contributed_total }} {{ slot.unit }}
+                </span>
+                {% endif %}
                 {% endfor %}
             </div>
             {% endif %}
@@ -80,6 +80,7 @@
                 <form method="post" action="/blueprints/{{ f.blueprint.id }}/slots/{{ slot.id }}" class="metadata-form">
                     <label>Label<input type="text" name="label" value="{{ slot.label }}" required></label>
                     <label>Required qty<input type="number" name="required_qty" value="{{ slot.required_qty }}" min="0" required></label>
+                    <label>Unit<input type="text" name="unit" value="{{ slot.unit }}" placeholder="g" required></label>
                     <label style="grid-column: 1/-1;">
                         Accepted EANs (one per line)
                         <textarea name="accepted_eans" rows="4">{% for e in slot.accepted_eans %}{{ e }}
@@ -93,7 +94,11 @@
                             {% for p in products %}
                             <li data-ean="{{ p.ean }}" data-name-lc="{{ p.name.lower() }}" data-ean-lc="{{ p.ean.lower() }}">
                                 <button type="button" class="picker-add" title="Add {{ p.ean }} to accepted EANs">+</button>
-                                <span>{{ p.name }} <span class="mono hint">({{ p.ean }})</span></span>
+                                <span>
+                                    {{ p.name }}
+                                    <span class="mono hint">({{ p.ean }})</span>
+                                    {% if p.size and p.unit %}<span class="hint">· {{ p.size }} {{ p.unit }}</span>{% endif %}
+                                </span>
                             </li>
                             {% endfor %}
                         </ul>
@@ -122,6 +127,7 @@
             <form method="post" action="/blueprints/{{ f.blueprint.id }}/slots" class="metadata-form">
                 <label>Label<input type="text" name="label" required placeholder="e.g. Tinned tomatoes"></label>
                 <label>Required qty<input type="number" name="required_qty" value="1" min="0" required></label>
+                <label>Unit<input type="text" name="unit" value="g" placeholder="g" required></label>
                 <label style="grid-column: 1/-1;">
                     Accepted EANs (one per line)
                     <textarea name="accepted_eans" rows="4" placeholder="1234567890128&#10;9876543210987"></textarea>
@@ -134,7 +140,11 @@
                         {% for p in products %}
                         <li data-ean="{{ p.ean }}" data-name-lc="{{ p.name.lower() }}" data-ean-lc="{{ p.ean.lower() }}">
                             <button type="button" class="picker-add" title="Add {{ p.ean }} to accepted EANs">+</button>
-                            <span>{{ p.name }} <span class="mono hint">({{ p.ean }})</span></span>
+                            <span>
+                                {{ p.name }}
+                                <span class="mono hint">({{ p.ean }})</span>
+                                {% if p.size and p.unit %}<span class="hint">· {{ p.size }} {{ p.unit }}</span>{% endif %}
+                            </span>
                         </li>
                         {% endfor %}
                     </ul>

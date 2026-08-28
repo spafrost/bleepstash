@@ -139,28 +139,34 @@ def _fetch_off_blocking(ean: str) -> Optional[dict]:
     if payload.get("status") != 1:
         return None
     product = payload.get("product") or {}
+    unit, size = _parse_quantity(product.get("quantity"))
     return {
         "name": product.get("product_name") or None,
         "manufacturer": product.get("brands") or None,
-        "weight_g": _parse_weight_g(product.get("quantity")),
+        "unit": unit,
+        "size": size,
     }
 
 
-def _parse_weight_g(raw: Optional[str]) -> Optional[float]:
+def _parse_quantity(raw: Optional[str]) -> tuple[Optional[str], Optional[float]]:
+    """Parse OFF ``quantity`` (e.g. ``"400 g"``, ``"1.5 L"``) into (unit, size).
+
+    Normalises kg → g and L → ml so the naive unit-match in blueprint
+    fulfilment doesn't get tripped up by kg-vs-g labelling.
+    """
     if not raw:
-        return None
+        return None, None
     match = _WEIGHT_RE.search(raw)
     if match is None:
-        return None
+        return None, None
     value = float(match.group(1).replace(",", "."))
     unit = match.group(2).lower()
     if unit == "kg":
-        return value * 1000.0
-    if unit == "g":
-        return value
-    # Liquids: treat 1 ml ≈ 1 g as a best-effort default; user can correct.
+        return "g", value * 1000.0
     if unit == "l":
-        return value * 1000.0
+        return "ml", value * 1000.0
+    if unit == "g":
+        return "g", value
     if unit == "ml":
-        return value
-    return None
+        return "ml", value
+    return unit, value

@@ -93,7 +93,8 @@ async def catalogue_update(
     ean: str,
     name: str = Form(...),
     manufacturer: str = Form(""),
-    weight_g: str = Form(""),
+    unit: str = Form(""),
+    size: str = Form(""),
     category: str = Form(""),
     default_shelf_life_months: str = Form(""),
 ) -> HTMLResponse:
@@ -104,7 +105,8 @@ async def catalogue_update(
     updated = product.model_copy(update={
         "name": name.strip() or "Unknown",
         "manufacturer": manufacturer.strip() or None,
-        "weight_g": _to_float(weight_g),
+        "unit": unit.strip() or None,
+        "size": _to_float(size),
         "category": category.strip() or None,
         "default_shelf_life_months": _to_int(default_shelf_life_months),
         "updated_at": datetime.now(timezone.utc),

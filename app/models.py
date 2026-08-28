@@ -5,7 +5,7 @@ from datetime import date, datetime, timezone
 from enum import Enum
 from typing import Any, Dict, List, Literal, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 
 def _now() -> datetime:
@@ -31,7 +31,8 @@ class Product(BaseModel):
     ean: str
     name: str
     manufacturer: Optional[str] = None
-    weight_g: Optional[float] = None
+    unit: Optional[str] = None
+    size: Optional[float] = None
     category: Optional[str] = None
     default_shelf_life_months: Optional[int] = None
     created_at: datetime = Field(default_factory=_now)
@@ -134,19 +135,35 @@ class ScanResult(BaseModel):
 
 
 class BlueprintSlot(BaseModel):
-    """One line item in a Blueprint — a target quantity of any-of-N EANs."""
+    """One line item in a Blueprint — a target quantity in a specific unit,
+    plus a list of EANs any of which can contribute.
+
+    Fulfilment is naive-match: each in-stock unit of an accepted EAN
+    contributes ``product.size`` if ``product.unit`` matches ``slot.unit``
+    (case-insensitive, trimmed). Otherwise it contributes 0 and the row
+    is flagged as a unit mismatch.
+    """
 
     id: str
     label: str
     required_qty: int = 1
+    unit: str = "units"
     accepted_eans: List[str] = Field(default_factory=list)
     notes: Optional[str] = None
 
 
+BLUEPRINT_TEMPLATE_VERSION = 2
+
+
 class Blueprint(BaseModel):
-    """A named target state for the stash. Only one may be active at a time."""
+    """A named target state for the stash. Only one may be active at a time.
+
+    ``template_version`` gates on-disk compatibility: older blueprints are
+    filtered out at load time. Bump this constant when the model changes.
+    """
 
     id: str
+    template_version: int = BLUEPRINT_TEMPLATE_VERSION
     name: str
     description: Optional[str] = None
     slots: List[BlueprintSlot] = Field(default_factory=list)

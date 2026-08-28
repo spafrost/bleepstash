@@ -391,6 +391,11 @@ footer a { color: var(--accent); }
     gap: 0.35rem;
     margin: 0.35rem 0 0.55rem;
 }
+.chip-mismatch {
+    background: rgba(248, 113, 113, 0.18) !important;
+    color: var(--err);
+    border: 1px dashed var(--err);
+}
 
 .bp-slot details {
     margin-top: 0.4rem;
@@ -440,6 +445,33 @@ footer a { color: var(--accent); }
     font-size: 0.85rem;
     font-weight: 600;
 }
+.picker-controls {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-end;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+}
+.picker-controls .picker-filter { flex: 1 1 200px; margin-top: 0; }
+.picker-amount-label {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8rem;
+    color: var(--muted);
+    gap: 0.15rem;
+    min-width: 100px;
+}
+.picker-amount-label input {
+    padding: 0.4rem 0.5rem;
+    background: var(--bg);
+    border: 1px solid #334155;
+    border-radius: 6px;
+    color: var(--fg);
+    font-size: 0.9rem;
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+    max-width: 100px;
+}
+.picker-amount-label input:focus { border-color: var(--accent); outline: none; }
 .picker-filter {
     display: block;
     width: 100%;
