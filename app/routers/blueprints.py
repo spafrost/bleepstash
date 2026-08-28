@@ -74,14 +74,24 @@ async def deactivate_current(request: Request) -> HTMLResponse:
 
 @router.get("/blueprints/{blueprint_id}", response_class=HTMLResponse)
 async def detail_page(request: Request, blueprint_id: str) -> HTMLResponse:
+    from .. import storage
+
     f = await blueprints_mod.compute_fulfilment(blueprint_id)
     if f is None:
         raise HTTPException(status_code=404, detail=f"No blueprint {blueprint_id}")
+    catalogue = await storage.load_products()
+    products = sorted(
+        (
+            {"ean": p.ean, "name": p.name or "Unknown"}
+            for p in catalogue.values()
+        ),
+        key=lambda p: (p["name"].lower(), p["ean"]),
+    )
     templates = _get_templates(request)
     return templates.TemplateResponse(
         request,
         "blueprint_detail.html",
-        {**await _base_context(), "f": f},
+        {**await _base_context(), "f": f, "products": products},
     )
 
 

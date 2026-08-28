@@ -85,6 +85,20 @@
                         <textarea name="accepted_eans" rows="4">{% for e in slot.accepted_eans %}{{ e }}
 {% endfor %}</textarea>
                     </label>
+                    {% if products %}
+                    <details class="ean-picker" style="grid-column: 1/-1;">
+                        <summary>+ Pick from catalogue ({{ products | length }} products)</summary>
+                        <input type="search" class="picker-filter" placeholder="Filter by name or EAN">
+                        <ul class="picker-list">
+                            {% for p in products %}
+                            <li data-ean="{{ p.ean }}" data-name-lc="{{ p.name.lower() }}" data-ean-lc="{{ p.ean.lower() }}">
+                                <button type="button" class="picker-add" title="Add {{ p.ean }} to accepted EANs">+</button>
+                                <span>{{ p.name }} <span class="mono hint">({{ p.ean }})</span></span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </details>
+                    {% endif %}
                     <label style="grid-column: 1/-1;">Notes<input type="text" name="notes" value="{{ slot.notes or '' }}"></label>
                     <div class="form-actions">
                         <button type="submit">Save slot</button>
@@ -110,8 +124,22 @@
                 <label>Required qty<input type="number" name="required_qty" value="1" min="0" required></label>
                 <label style="grid-column: 1/-1;">
                     Accepted EANs (one per line)
-                    <textarea name="accepted_eans" rows="4" placeholder="3017620422003&#10;4061461281892"></textarea>
+                    <textarea name="accepted_eans" rows="4" placeholder="1234567890128&#10;9876543210987"></textarea>
                 </label>
+                {% if products %}
+                <details class="ean-picker" style="grid-column: 1/-1;">
+                    <summary>+ Pick from catalogue ({{ products | length }} products)</summary>
+                    <input type="search" class="picker-filter" placeholder="Filter by name or EAN">
+                    <ul class="picker-list">
+                        {% for p in products %}
+                        <li data-ean="{{ p.ean }}" data-name-lc="{{ p.name.lower() }}" data-ean-lc="{{ p.ean.lower() }}">
+                            <button type="button" class="picker-add" title="Add {{ p.ean }} to accepted EANs">+</button>
+                            <span>{{ p.name }} <span class="mono hint">({{ p.ean }})</span></span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </details>
+                {% endif %}
                 <label style="grid-column: 1/-1;">Notes<input type="text" name="notes"></label>
                 <div class="form-actions">
                     <button type="submit">Add slot</button>
@@ -120,4 +148,5 @@
         </details>
     </div>
 </section>
+<script src="/static/blueprint_picker.js"></script>
 {% endblock %}

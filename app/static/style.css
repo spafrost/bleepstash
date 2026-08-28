@@ -363,6 +363,69 @@ footer a { color: var(--accent); }
 }
 .metadata-form textarea:focus { border-color: var(--accent); outline: none; }
 
+/* Blueprint EAN picker */
+.ean-picker {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    padding: 0.5rem 0.7rem;
+    margin-top: -0.25rem;
+}
+.ean-picker summary {
+    cursor: pointer;
+    color: var(--accent);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+.picker-filter {
+    display: block;
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.4rem 0.6rem;
+    background: var(--bg);
+    border: 1px solid #334155;
+    border-radius: 6px;
+    color: var(--fg);
+    font-size: 0.9rem;
+}
+.picker-filter:focus { border-color: var(--accent); outline: none; }
+.picker-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0;
+    max-height: 240px;
+    overflow-y: auto;
+    border: 1px solid #334155;
+    border-radius: 6px;
+    background: rgba(15, 23, 42, 0.5);
+}
+.picker-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.55rem;
+    border-bottom: 1px solid #1e293b;
+    font-size: 0.9rem;
+}
+.picker-list li:last-child { border-bottom: none; }
+.picker-list li[hidden] { display: none; }
+.picker-add {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    padding: 0 0.5rem;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.95rem;
+    min-width: 1.6rem;
+}
+.picker-add:hover { background: var(--accent); color: var(--bg); }
+.picker-add.picker-done {
+    background: var(--ok);
+    color: var(--bg);
+    border-color: var(--ok);
+}
+
 .screen-only { }
 @media print {
     .screen-only { display: none !important; }

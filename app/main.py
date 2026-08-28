@@ -25,11 +25,28 @@ templates = Jinja2Templates(directory=str(TEMPLATES_DIR))
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    get_settings()  # eager-load config; ensures data dirs exist
+    settings = get_settings()  # eager-load config; ensures data dirs exist
+    _seed_blueprints_if_missing(settings)
     await state.initialise()
     await audit.log("app_start", version=__version__)
     yield
     await audit.log("app_stop", version=__version__)
+
+
+def _seed_blueprints_if_missing(settings) -> None:
+    """Copy the shipped starter blueprints into /data on first boot.
+
+    Only runs when data/blueprints.json is absent, so users who already have
+    blueprints (or who deleted all the starters) aren't overwritten.
+    """
+    target = settings.blueprints_path
+    if target.exists():
+        return
+    seed = APP_DIR / "seed_blueprints.json"
+    if not seed.exists():
+        return
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_bytes(seed.read_bytes())
 
 
 app = FastAPI(
